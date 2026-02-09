@@ -1,0 +1,277 @@
+Dependencies for Project 'AT32F403ARGT7_WorkBench', Target 'AT32F403ARGT7_WorkBench': (DO NOT MODIFY !)
+CompilerVersion: 6230000::V6.23::ARMCLANG
+F (..\src\main.c)(0x6971C339)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/main.o -MMD)
+I (..\inc\at32f403a_407_wk_config.h)(0x6964964B)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+I (..\inc\wk_crc.h)(0x6964964B)
+I (..\inc\wk_debug.h)(0x6964964B)
+I (..\inc\wk_usart.h)(0x6964964B)
+I (..\inc\wk_system.h)(0x6964964C)
+I (..\inc\at32f403a_407_int.h)(0x6964964C)
+I (..\inc\iap.h)(0x68D5ECAC)
+I (..\inc\flash.h)(0x68D5ECAC)
+F (..\src\at32f403a_407_wk_config.c)(0x6964964B)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/at32f403a_407_wk_config.o -MMD)
+I (..\inc\at32f403a_407_wk_config.h)(0x6964964B)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+F (..\src\at32f403a_407_int.c)(0x6964964C)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/at32f403a_407_int.o -MMD)
+I (..\inc\at32f403a_407_int.h)(0x6964964C)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+I (..\inc\wk_system.h)(0x6964964C)
+I (..\inc\flash.h)(0x68D5ECAC)
+F (..\src\wk_system.c)(0x6964964C)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/wk_system.o -MMD)
+I (..\inc\wk_system.h)(0x6964964C)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+F (..\src\wk_crc.c)(0x6964964B)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/wk_crc.o -MMD)
+I (..\inc\wk_crc.h)(0x6964964B)
+I (..\inc\at32f403a_407_wk_config.h)(0x6964964B)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+F (..\src\wk_debug.c)(0x6964964B)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/wk_debug.o -MMD)
+I (..\inc\wk_debug.h)(0x6964964B)
+I (..\inc\at32f403a_407_wk_config.h)(0x6964964B)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+F (..\src\wk_usart.c)(0x6964964B)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/wk_usart.o -MMD)
+I (..\inc\wk_usart.h)(0x6964964B)
+I (..\inc\at32f403a_407_wk_config.h)(0x6964964B)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+F (..\src\flash.c)(0x68D5ECAC)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/flash.o -MMD)
+I (..\inc\flash.h)(0x68D5ECAC)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+F (..\src\iap.c)(0x68D5ECAC)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/iap.o -MMD)
+I (..\inc\iap.h)(0x68D5ECAC)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+I (..\inc\flash.h)(0x68D5ECAC)
+F (..\..\libraries\drivers\src\at32f403a_407_crm.c)(0x6937EA92)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/at32f403a_407_crm.o -MMD)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+F (..\..\libraries\drivers\src\at32f403a_407_gpio.c)(0x6937EA92)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/at32f403a_407_gpio.o -MMD)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+F (..\..\libraries\drivers\src\at32f403a_407_usart.c)(0x6937EA92)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/at32f403a_407_usart.o -MMD)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+F (..\..\libraries\drivers\src\at32f403a_407_pwc.c)(0x6937EA92)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/at32f403a_407_pwc.o -MMD)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+F (..\..\libraries\drivers\src\at32f403a_407_flash.c)(0x6937EA92)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/at32f403a_407_flash.o -MMD)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+F (..\..\libraries\drivers\src\at32f403a_407_crc.c)(0x6937EA92)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/at32f403a_407_crc.o -MMD)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+F (..\..\libraries\drivers\src\at32f403a_407_misc.c)(0x6937EA92)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/at32f403a_407_misc.o -MMD)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+F (..\..\libraries\drivers\src\at32f403a_407_debug.c)(0x6937EA92)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/at32f403a_407_debug.o -MMD)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)
+F (.\startup_at32f403a_407.s)(0x6964964B)(--cpu Cortex-M4.fp.sp -g --pd "__MICROLIB SETA 1" --diag_suppress=A1950W-ID:\keil5.42\ArteryTek\AT32F403A_407_DFP\2.2.3\Device\Include--pd "__UVISION_VERSION SETA 542"--pd "AT32F403ARGT7 SETA 1"--list .\listings\startup_at32f403a_407.lst--xref -o .\objects\startup_at32f403a_407.o--depend .\objects\startup_at32f403a_407.d)
+F (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.c)(0x6937EA91)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc-ID:/keil5.42/ArteryTek/AT32F403A_407_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F403ARGT7 -DAT32F403ARGT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o ./objects/system_at32f403a_407.o -MMD)
+I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6937EA91)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h)(0x6937EA91)
+I (..\..\libraries\drivers\inc\at32f403a_407_def.h)(0x6937EA92)
+I (..\inc\at32f403a_407_conf.h)(0x6964964C)
+I (..\..\libraries\drivers\inc\at32f403a_407_crc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_crm.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_debug.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_flash.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_gpio.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_misc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_pwc.h)(0x6937EA92)
+I (..\..\libraries\drivers\inc\at32f403a_407_usart.h)(0x6937EA92)

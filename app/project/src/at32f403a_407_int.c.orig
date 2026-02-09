@@ -1,0 +1,772 @@
+/* add user code begin Header */
+/**
+  **************************************************************************
+  * @file     at32f403a_407_int.c
+  * @brief    main interrupt service routines.
+  **************************************************************************
+  *                       Copyright notice & Disclaimer
+  *
+  * The software Board Support Package (BSP) that is made available to
+  * download from Artery official website is the copyrighted work of Artery.
+  * Artery authorizes customers to use, copy, and distribute the BSP
+  * software and its related documentation for the purpose of design and
+  * development in conjunction with Artery microcontrollers. Use of the
+  * software is governed by this copyright notice and the following disclaimer.
+  *
+  * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
+  * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
+  * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
+  * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
+  * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+  * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+  *
+  **************************************************************************
+  */
+/* add user code end Header */
+
+/* includes ------------------------------------------------------------------*/
+#include "at32f403a_407_int.h"
+#include "wk_system.h"
+/* private includes ----------------------------------------------------------*/
+/* add user code begin private includes */
+#include "iap.h"
+#include "tmt.h"
+
+#include "wk_usart.h"
+#include "output_handle.h"
+#include "beep_handle.h"
+
+#include "perf_counter.h"
+#include "BE02_HANDLE.h"
+/* add user code end private includes */
+
+/* private typedef -----------------------------------------------------------*/
+/* add user code begin private typedef */
+#define GET_MCU_TEMP_TIME                500
+#define ADC_VREF                         (3.3)
+#define ADC_TEMP_BASE                    (1.26)
+#define ADC_TEMP_SLOPE                   (-0.00423)
+
+
+/* add user code end private typedef */
+
+/* private define ------------------------------------------------------------*/
+/* add user code begin private define */
+
+/* add user code end private define */
+
+/* private macro -------------------------------------------------------------*/
+/* add user code begin private macro */
+
+/* add user code end private macro */
+
+/* private variables ---------------------------------------------------------*/
+/* add user code begin private variables */
+bool s1_run_flag = false;
+bool s2_run_flag = false;
+
+bool adc_ready = false;
+volatile uint16_t adc_temp = 0;
+volatile uint16_t adc_sum = 0;
+volatile uint16_t adc_average = 0;
+
+uint16_t adc_buffer[6];
+
+volatile uint8_t get_adc_count = 0;
+
+__IO uint16_t adc1_ordinary_value = 0;
+
+uint16_t Temp_setvalue[] =
+{
+    200, 210, 220, 230, 240, 250, 260, 270, 280, 290,
+    300, 310, 320, 330, 340, 350, 360, 370, 380, 390,
+    400, 410, 420, 430, 440, 450
+};
+int8_t offset_table[] =
+{
+    50, 49, 48, 47, 46, 45, 42, 41, 40, 39,
+    37, 34, 32, 29, 27, 25, 19, 13, 7,  4,
+    0,  -9, -13, -18, -24, -28
+};
+/* add user code end private variables */
+
+/* private function prototypes --------------------------------------------*/
+/* add user code begin function prototypes */
+void s1_sleep_control(void);
+void s2_sleep_control(void);
+void s1_pwm_control(void);
+void s2_pwm_control(void);
+uint16_t trimmed_average(uint16_t *arr, uint8_t len);
+int8_t linear_correction(uint16_t user_set_temp);
+/* add user code end function prototypes */
+
+/* private user code ---------------------------------------------------------*/
+/* add user code begin 0 */
+
+/* add user code end 0 */
+
+/* external variables ---------------------------------------------------------*/
+/* add user code begin external variables */
+
+/* add user code end external variables */
+
+/**
+  * @brief  this function handles nmi exception.
+  * @param  none
+  * @retval none
+  */
+void NMI_Handler(void)
+{
+    /* add user code begin NonMaskableInt_IRQ 0 */
+    /* add user code end NonMaskableInt_IRQ 0 */
+    /* add user code begin NonMaskableInt_IRQ 1 */
+    /* add user code end NonMaskableInt_IRQ 1 */
+}
+
+/**
+  * @brief  this function handles hard fault exception.
+  * @param  none
+  * @retval none
+  */
+void HardFault_Handler(void)
+{
+    /* add user code begin HardFault_IRQ 0 */
+
+    /* add user code end HardFault_IRQ 0 */
+    /* go to infinite loop when hard fault exception occurs */
+    while (1)
+    {
+        /* add user code begin W1_HardFault_IRQ 0 */
+        /* add user code end W1_HardFault_IRQ 0 */
+    }
+}
+
+/**
+  * @brief  this function handles memory manage exception.
+  * @param  none
+  * @retval none
+  */
+void MemManage_Handler(void)
+{
+    /* add user code begin MemoryManagement_IRQ 0 */
+
+    /* add user code end MemoryManagement_IRQ 0 */
+    /* go to infinite loop when memory manage exception occurs */
+    while (1)
+    {
+        /* add user code begin W1_MemoryManagement_IRQ 0 */
+        /* add user code end W1_MemoryManagement_IRQ 0 */
+    }
+}
+
+/**
+  * @brief  this function handles bus fault exception.
+  * @param  none
+  * @retval none
+  */
+void BusFault_Handler(void)
+{
+    /* add user code begin BusFault_IRQ 0 */
+
+    /* add user code end BusFault_IRQ 0 */
+    /* go to infinite loop when bus fault exception occurs */
+    while (1)
+    {
+        /* add user code begin W1_BusFault_IRQ 0 */
+        /* add user code end W1_BusFault_IRQ 0 */
+    }
+}
+
+/**
+  * @brief  this function handles usage fault exception.
+  * @param  none
+  * @retval none
+  */
+void UsageFault_Handler(void)
+{
+    /* add user code begin UsageFault_IRQ 0 */
+
+    /* add user code end UsageFault_IRQ 0 */
+    /* go to infinite loop when usage fault exception occurs */
+    while (1)
+    {
+        /* add user code begin W1_UsageFault_IRQ 0 */
+        /* add user code end W1_UsageFault_IRQ 0 */
+    }
+}
+
+/**
+  * @brief  this function handles svcall exception.
+  * @param  none
+  * @retval none
+  */
+void SVC_Handler(void)
+{
+    /* add user code begin SVCall_IRQ 0 */
+    /* add user code end SVCall_IRQ 0 */
+    /* add user code begin SVCall_IRQ 1 */
+    /* add user code end SVCall_IRQ 1 */
+}
+
+/**
+  * @brief  this function handles debug monitor exception.
+  * @param  none
+  * @retval none
+  */
+void DebugMon_Handler(void)
+{
+    /* add user code begin DebugMonitor_IRQ 0 */
+    /* add user code end DebugMonitor_IRQ 0 */
+    /* add user code begin DebugMonitor_IRQ 1 */
+    /* add user code end DebugMonitor_IRQ 1 */
+}
+
+/**
+  * @brief  this function handles pendsv_handler exception.
+  * @param  none
+  * @retval none
+  */
+void PendSV_Handler(void)
+{
+    /* add user code begin PendSV_IRQ 0 */
+    /* add user code end PendSV_IRQ 0 */
+    /* add user code begin PendSV_IRQ 1 */
+    /* add user code end PendSV_IRQ 1 */
+}
+
+/**
+  * @brief  this function handles systick handler.
+  * @param  none
+  * @retval none
+  */
+void SysTick_Handler(void)
+{
+    /* add user code begin SysTick_IRQ 0 */
+    static uint8_t beep_run_time = BEEP_TASK_TIME;
+    static uint16_t get_temp_time = GET_MCU_TEMP_TIME;
+    static uint8_t beep_warning_time = 10;
+    /* run beep function */
+    beep_run_time--;
+
+    if (!beep_run_time)
+    {
+        beep_run_time = BEEP_TASK_TIME;
+
+        if (sbe02.fuction.beep == BEEP_ON)
+        {
+            beep_handle();
+
+            if (sbe02.S1.handle_error != HANDLE_OK ||
+                    sbe02.S2.handle_error != HANDLE_OK)
+            {
+                beep_warning_time --;
+
+                if (!beep_warning_time)
+                {
+                    beep_warning_time = 40;
+                    sbeep.status = BEEP_LONG;
+                }
+            }
+        }
+    }
+
+    /* get mcu temp */
+    get_temp_time--;
+
+    if (!get_temp_time)
+    {
+        adc1_ordinary_value = get_adcval(ADC_CHANNEL_16);
+        sbe02.mcu_temp = (ADC_TEMP_BASE - (double)adc1_ordinary_value * ADC_VREF / 4096) / ADC_TEMP_SLOPE + 25;
+        get_temp_time = GET_MCU_TEMP_TIME;
+    }
+
+    tmt.tick();
+    s1_sleep_control();
+    s2_sleep_control();
+    s1_pwm_control();
+    s2_pwm_control();
+    /* add user code end SysTick_IRQ 0 */
+    wk_timebase_handler();
+    /* add user code begin SysTick_IRQ 1 */
+    /* add user code end SysTick_IRQ 1 */
+}
+
+/**
+  * @brief  this function handles EXINT Line [9:5] handler.
+  * @param  none
+  * @retval none
+  */
+void EXINT9_5_IRQHandler(void)
+{
+    /* add user code begin EXINT9_5_IRQ 0 */
+    if (exint_flag_get(EXINT_LINE_6) != RESET)
+    {
+#if 1
+
+        /* s1 handle output */
+        if (s1_run_flag == false)
+        {
+            if (sbe02.S1.handle_state == SLEEP ||
+                    sbe02.S1.handle_error != HANDLE_OK)
+            {
+                sbe02.S1.pwm_out = 0;
+                PID_Clear_I(&s1_210_pid);
+                PID_Clear_I(&s1_245_pid);
+                tmr_channel_value_set(TMR2, TMR_SELECT_CHANNEL_1, 0);
+                // z tmr_counter_enable(TMR2, TRUE);
+            }
+            else if (sbe02.S1.handle_state == WORKING)
+            {
+                tmr_channel_value_set(TMR2, TMR_SELECT_CHANNEL_1, sbe02.S1.pwm_out);
+                tmr_counter_enable(TMR2, TRUE);
+            }
+
+            s1_run_flag = true;
+        }
+
+#endif
+#if 1
+
+        /* s2 handle output */
+        if (s2_run_flag == false)
+        {
+            if (sbe02.S2.handle_state == SLEEP ||
+                    sbe02.S2.handle_error != HANDLE_OK)
+            {
+                sbe02.S2.pwm_out = 0;
+                PID_Clear_I(&s2_210_pid);
+                PID_Clear_I(&s2_245_pid);
+                tmr_channel_value_set(TMR2, TMR_SELECT_CHANNEL_2, 0);
+                // tmr_counter_enable(TMR2, TRUE);
+            }
+            else if (sbe02.S2.handle_state == WORKING)
+            {
+                tmr_channel_value_set(TMR2, TMR_SELECT_CHANNEL_2, sbe02.S2.pwm_out);
+                tmr_counter_enable(TMR2, TRUE);
+            }
+
+            s2_run_flag = true;
+        }
+
+#endif
+
+        if (sbe02.S1.handle_state == SLEEP && sbe02.S2.handle_state == SLEEP)
+        {
+            sbe02.S1.pwm_out = 0;
+            sbe02.S2.pwm_out = 0;
+            PID_Clear_I(&s1_210_pid);
+            PID_Clear_I(&s2_245_pid);
+            PID_Clear_I(&s2_210_pid);
+            PID_Clear_I(&s2_245_pid);
+            tmr_channel_value_set(TMR2, TMR_SELECT_CHANNEL_1, 0);
+            tmr_channel_value_set(TMR2, TMR_SELECT_CHANNEL_2, 0);
+            tmr_counter_enable(TMR2, false);
+        }
+
+        exint_flag_clear(EXINT_LINE_6);
+    }
+
+    /* add user code end EXINT9_5_IRQ 0 */
+    /* add user code begin EXINT9_5_IRQ 1 */
+    /* add user code end EXINT9_5_IRQ 1 */
+}
+
+
+/* add user code begin 1 */
+
+void s1_pwm_control(void)
+{
+#if 1
+    static handle_type_e last_s1_handle_type = RESET_VALUE;
+    static uint8_t state = 0;
+    static int8_t delay_time = 0;
+    static uint16_t last_s1_set_temp = 0;
+    static float temp = 0;
+
+    if (sbe02.S1.handle_type == TPYE_210)
+    {
+        temp = sbe02.S1.actual_temp + sbe02.S1.line_cal_temp - sbe02.S1.cal_temp;
+    }
+    else if (sbe02.S1.handle_type == TPYE_245)
+    {
+        temp = sbe02.S1.actual_temp - sbe02.S1.cal_temp;
+    }
+
+    if (last_s1_set_temp != sbe02.S1.set_temp)
+    {
+        PID_Clear_I(&s1_210_pid);
+        PID_Clear_I(&s1_245_pid);
+
+        if (sbe02.S1.handle_type == TPYE_210)
+        {
+            sbe02.S1.line_cal_temp = linear_correction(sbe02.S1.set_temp);
+        }
+
+        last_s1_set_temp = sbe02.S1.set_temp;
+    }
+
+    if (last_s1_handle_type != sbe02.S1.handle_type)
+    {
+        if (sbe02.S1.handle_type == TPYE_210)
+        {
+            PID_Clear_I(&s1_210_pid);
+            gpio_bits_reset(COM1_EN_GPIO_PORT, COM1_EN_PIN);
+        }
+        else if (sbe02.S1.handle_type == TPYE_245)
+        {
+            PID_Clear_I(&s1_245_pid);
+            gpio_bits_set(COM1_EN_GPIO_PORT, COM1_EN_PIN);
+        }
+
+        last_s1_handle_type = sbe02.S1.handle_type;
+    }
+
+    switch (state)
+    {
+    case 0:
+        if (s1_run_flag == true)
+        {
+            /* close s1 output */
+            //tmr_channel_value_set(TMR2, TMR_SELECT_CHANNEL_1, 0);
+            //tmr_counter_enable(TMR2, FALSE);
+            /* delay some time */
+            delay_time--;
+
+            if (delay_time <= 0)
+            {
+                state++;
+                break;
+            }
+        }
+
+        break;
+
+    case 1:
+        if (sbe02.S1.handle_state == SLEEP)
+        {
+            /* get s1 temp */
+            sbe02.S1.actual_temp = move_average_filter(&s1_adc) >> 2;
+            s1_run_flag = false;
+            state = 0;
+            delay_time = 8;
+            break;
+        }
+        else if (sbe02.S1.handle_state == WORKING &&
+                 sbe02.S1.handle_error == HANDLE_OK &&
+                 sbe02.S1.handle_type != TPYE_NOT_EXIST &&
+                 sbe02.rpc_state != RPC_ON)
+        {
+            /* get s1 temp */
+            sbe02.S1.actual_temp = move_average_filter(&s1_adc) >> 2;
+
+            if (temp <= (sbe02.S1.set_temp + PID_RANGE) &&
+                    temp >= (sbe02.S1.set_temp - PID_RANGE))
+            {
+                if (sbe02.S1.handle_type == TPYE_245)
+                {
+                    sbe02.S1.pwm_out = PID_Position_Calc(&s1_245_pid, sbe02.S1.set_temp,
+                                                         temp);
+                }
+                else if (sbe02.S1.handle_type == TPYE_210)
+                {
+                    sbe02.S1.pwm_out = PID_Position_Calc(&s1_210_pid, sbe02.S1.set_temp,
+                                                         temp);
+                }
+            }
+            else if (temp > (sbe02.S1.set_temp + PID_RANGE))
+            {
+                sbe02.S1.pwm_out = 0;
+            }
+            else
+            {
+                if (sbe02.S1.handle_type == TPYE_245)
+                {
+                    sbe02.S1.pwm_out = 60000;
+                }
+                else if (sbe02.S1.handle_type == TPYE_210)
+                {
+                    sbe02.S1.pwm_out = 30000;
+                }
+            }
+
+            s1_run_flag = false;
+            delay_time = 3;
+            state = 0;
+            break;
+        }
+
+        break;
+    }
+
+#endif
+}
+
+void s2_pwm_control(void)
+{
+#if 1
+	static handle_type_e last_s2_handle_type = RESET_VALUE;
+    static uint8_t state = 0;
+    static int8_t delay_time = 0;
+    static uint16_t last_s2_set_temp = 0;
+    static float temp = 0;
+	
+if (sbe02.S2.handle_type == TPYE_210)
+    {
+        temp = sbe02.S2.actual_temp + sbe02.S2.line_cal_temp - sbe02.S2.cal_temp;
+    }
+    else if (sbe02.S2.handle_type == TPYE_245)
+    {
+        temp = sbe02.S2.actual_temp - sbe02.S2.cal_temp;
+    }
+
+    if (last_s2_set_temp != sbe02.S2.set_temp)
+    {
+        PID_Clear_I(&s2_210_pid);
+        PID_Clear_I(&s2_245_pid);
+
+        if (sbe02.S2.handle_type == TPYE_210)
+        {
+            sbe02.S2.line_cal_temp = linear_correction(sbe02.S2.set_temp);
+        }
+
+        last_s2_set_temp = sbe02.S2.set_temp;
+    }
+
+    if (last_s2_handle_type != sbe02.S2.handle_type)
+    {
+        if (sbe02.S2.handle_type == TPYE_210)
+        {
+            PID_Clear_I(&s2_210_pid);
+            gpio_bits_reset(COM2_EN_GPIO_PORT, COM2_EN_PIN);
+        }
+        else if (sbe02.S2.handle_type == TPYE_245)
+        {
+            PID_Clear_I(&s2_245_pid);
+            gpio_bits_set(COM2_EN_GPIO_PORT, COM2_EN_PIN);
+        }
+
+        last_s2_handle_type = sbe02.S2.handle_type;
+    }
+
+    switch (state)
+    {
+    case 0:
+        if (s2_run_flag == true)
+        {
+            /* close s2 output */
+            //          tmr_channel_value_set(TMR2, TMR_SELECT_CHANNEL_2, 0);
+            //			tmr_counter_enable(TMR2, FALSE);
+            /* delay some time */
+            delay_time--;
+
+            if (delay_time <= 0)
+            {
+                state++;
+                break;
+            }
+        }
+
+        break;
+
+    case 1:
+        if (sbe02.S2.handle_state == SLEEP)
+        {/* get s2 temp */
+            sbe02.S2.actual_temp = move_average_filter(&s2_adc) >> 2;
+            s2_run_flag = false;
+            state = 0;
+            delay_time = 8;
+            break;
+        }
+        else if (sbe02.S2.handle_state == WORKING &&
+			sbe02.S2.handle_error == HANDLE_OK &&
+                 sbe02.S2.handle_type != TPYE_NOT_EXIST &&
+                 sbe02.rpc_state != RPC_ON)
+        {
+			           /* get s2 temp */
+            sbe02.S2.actual_temp = move_average_filter(&s2_adc) >> 2;
+
+            if (temp <= (sbe02.S2.set_temp + PID_RANGE) &&
+                    temp >= (sbe02.S2.set_temp - PID_RANGE))
+            {
+                if (sbe02.S2.handle_type == TPYE_245)
+                {
+                    sbe02.S2.pwm_out = PID_Position_Calc(&s2_245_pid, sbe02.S2.set_temp,
+                                                         temp);
+                }
+                else if (sbe02.S2.handle_type == TPYE_210)
+                {
+                    sbe02.S2.pwm_out = PID_Position_Calc(&s2_210_pid, sbe02.S2.set_temp,
+                                                         temp);
+                }
+            }
+            else if (temp > (sbe02.S2.set_temp + PID_RANGE))
+            {
+                sbe02.S2.pwm_out = 0;
+            }
+            else
+            {
+                if (sbe02.S2.handle_type == TPYE_245)
+                {
+                    sbe02.S2.pwm_out = 60000;
+                }
+                else if (sbe02.S2.handle_type == TPYE_210)
+                {
+                    sbe02.S2.pwm_out = 30000;
+                }
+            }
+
+            s2_run_flag = false;
+            delay_time = 3;
+            state = 0;
+            break;
+         }
+
+        break;
+    }
+
+#endif
+}
+
+void s1_sleep_control(void)
+{
+    static bool first_in = false;
+    static uint16_t time_count_ms = 0;
+    static uint8_t time_count_s = 0;
+
+    if (sbe02.S1.handle_position == IN_POSITION)
+    {
+        first_in = false;
+
+        if (sbe02.S1.sleep_time_count)
+        {
+            time_count_ms++;
+
+            if (time_count_ms >= 1000)
+            {
+                time_count_ms = 0;
+                time_count_s++;
+
+                if (time_count_s >= 60)
+                {
+                    time_count_s = 0;
+                    sbe02.S1.sleep_time_count--;
+                }
+            }
+        }
+        else
+        {
+            if (sbe02.S1.handle_state == WORKING)
+            {
+                sbe02.S1.handle_state = SLEEP;
+            }
+        }
+    }
+    else if (sbe02.S1.handle_position == NOT_IN_POSITION)
+    {
+        if (first_in == false)
+        {
+            first_in = true;
+            sbe02.S1.handle_state = WORKING;
+            sbe02.S1.sleep_time_count = sbe02.S1.set_sleep_time;
+            time_count_ms = 0;
+            time_count_s = 0;
+        }
+    }
+}
+
+void s2_sleep_control(void)
+{
+    static bool first_in = false;
+    static uint16_t time_count_ms = 0;
+    static uint8_t time_count_s = 0;
+
+    if (sbe02.S2.handle_position == IN_POSITION)
+    {
+        first_in = false;
+
+        if (sbe02.S2.sleep_time_count)
+        {
+            time_count_ms++;
+
+            if (time_count_ms >= 1000)
+            {
+                time_count_ms = 0;
+                time_count_s++;
+
+                if (time_count_s >= 60)
+                {
+                    time_count_s = 0;
+                    sbe02.S2.sleep_time_count--;
+                }
+            }
+        }
+        else
+        {
+            if (sbe02.S2.handle_state == WORKING)
+            {
+                sbe02.S2.handle_state = SLEEP;
+            }
+        }
+    }
+    else if (sbe02.S2.handle_position == NOT_IN_POSITION)
+    {
+        if (first_in == false)
+        {
+            first_in = true;
+            sbe02.S2.handle_state = WORKING;
+            sbe02.S2.sleep_time_count = sbe02.S2.set_sleep_time;
+            time_count_ms = 0;
+            time_count_s = 0;
+        }
+    }
+}
+
+uint16_t trimmed_average(uint16_t *arr, uint8_t len)
+{
+    uint16_t min_val = arr[0];
+    uint16_t max_val = arr[0];
+    uint16_t sum = arr[0];
+
+    for (int i = 1; i < len; i++)
+    {
+        sum += arr[i];
+
+        if (arr[i] < min_val)
+        {
+            min_val = arr[i];
+        }
+
+        if (arr[i] > max_val)
+        {
+            max_val = arr[i];
+        }
+    }
+
+    uint16_t adjusted_sum = sum - min_val - max_val;
+    return (uint16_t)adjusted_sum / len - 2;
+}
+
+int8_t linear_correction(uint16_t user_set_temp)
+{
+    volatile uint8_t n = 0;
+    volatile uint16_t check_start = 0;
+    volatile uint8_t check_value = 0;
+    check_value = 0;
+    check_start = 200;
+
+    for (n = 0; n < 26; n++)
+    {
+        if (user_set_temp <= (check_start + check_value))
+        {
+            return (offset_table[n]);
+        }
+        else
+        {
+            check_start += 10;
+        }
+    }
+
+    return (offset_table[n]);
+}
+
+/* add user code end 1 */
