@@ -18,4 +18,4 @@
   ..\..\libraries\drivers\inc\at32f403a_407_tmr.h \
   ..\..\libraries\drivers\inc\at32f403a_407_usart.h \
   ..\..\libraries\drivers\inc\at32f403a_407_wdt.h ..\drive\adc_filter.h \
-  ..\drive\round_data.h
+  ..\drive\round_data.h ..\app\collect_data_handle.h

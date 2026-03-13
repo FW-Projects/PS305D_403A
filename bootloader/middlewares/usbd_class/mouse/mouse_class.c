@@ -3,8 +3,7 @@
   * @file     mouse_class.c
   * @brief    usb hid mouse class type
   **************************************************************************
-  *
-  * Copyright (c) 2025, Artery Technology, All rights reserved.
+  *                       Copyright notice & Disclaimer
   *
   * The software Board Support Package (BSP) that is made available to
   * download from Artery official website is the copyrighted work of Artery.
@@ -75,7 +74,6 @@ static usb_sts_type class_init_handler(void *udev)
 {
   usb_sts_type status = USB_OK;
   usbd_core_type *pudev = (usbd_core_type *)udev;
-  mouse_type *pmouse = (mouse_type *)pudev->class_handler->pdata;
 
 #ifndef USB_EPT_AUTO_MALLOC_BUFFER
   /* use user define buffer address */
@@ -84,8 +82,6 @@ static usb_sts_type class_init_handler(void *udev)
 
   /* open hid in endpoint */
   usbd_ept_open(pudev, USBD_MOUSE_IN_EPT, EPT_INT_TYPE, USBD_MOUSE_IN_MAXPACKET_SIZE);
-  
-  pmouse->send_state = 0;
 
   return status;
 }
@@ -235,13 +231,11 @@ static usb_sts_type class_ept0_rx_handler(void *udev)
 static usb_sts_type class_in_handler(void *udev, uint8_t ept_num)
 {
   usb_sts_type status = USB_OK;
-  usbd_core_type *pudev = (usbd_core_type *)udev;
-  mouse_type *pmouse = (mouse_type *)pudev->class_handler->pdata;
 
   /* ...user code...
     trans next packet data
   */
-  pmouse->send_state = 0;
+
   return status;
 }
 
@@ -314,16 +308,11 @@ static usb_sts_type class_event_handler(void *udev, usbd_event_type event)
   */
 usb_sts_type usb_mouse_class_send_report(void *udev, uint8_t *report, uint16_t len)
 {
-  usb_sts_type status = USB_FAIL;
+  usb_sts_type status = USB_OK;
   usbd_core_type *pudev = (usbd_core_type *)udev;
-  mouse_type *pmouse = (mouse_type *)pudev->class_handler->pdata;
 
-  if(usbd_connect_state_get(pudev) == USB_CONN_STATE_CONFIGURED && pmouse->send_state == 0)
-  {
-    pmouse->send_state = 1;
+  if(usbd_connect_state_get(pudev) == USB_CONN_STATE_CONFIGURED)
     usbd_ept_send(pudev, USBD_MOUSE_IN_EPT, report, len);
-    status = USB_OK;
-  }
 
   return status;
 }

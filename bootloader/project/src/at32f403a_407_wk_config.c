@@ -64,17 +64,17 @@
 /**
   * @brief  system clock config program
   * @note   the system clock is configured as follow:
-  *         system clock (sclk)   = hext * pll_mult
-  *         system clock source   = HEXT_VALUE
+  *         system clock (sclk)   = hick / 12 * pll_mult
+  *         system clock source   = HICK_VALUE
   *         - hext                = HEXT_VALUE
-  *         - sclk                = 200000000
+  *         - sclk                = 240000000
   *         - ahbdiv              = 1
-  *         - ahbclk              = 200000000
+  *         - ahbclk              = 240000000
   *         - apb1div             = 2
-  *         - apb1clk             = 100000000
+  *         - apb1clk             = 120000000
   *         - apb2div             = 2
-  *         - apb2clk             = 100000000
-  *         - pll_mult            = 25
+  *         - apb2clk             = 120000000
+  *         - pll_mult            = 60
   *         - pll_range           = GT72MHZ (greater than 72 mhz)
   * @param  none
   * @retval none
@@ -109,7 +109,7 @@ void wk_system_clock_config(void)
   }
 
   /* config pll clock resource */
-  crm_pll_config(CRM_PLL_SOURCE_HEXT, CRM_PLL_MULT_25, CRM_PLL_OUTPUT_RANGE_GT72MHZ);
+  crm_pll_config(CRM_PLL_SOURCE_HICK, CRM_PLL_MULT_60, CRM_PLL_OUTPUT_RANGE_GT72MHZ);
 
   /* enable pll */
   crm_clock_source_enable(CRM_CLOCK_SOURCE_PLL, TRUE);

@@ -23,22 +23,21 @@
 
 
 #define SET_SHOW_TIMES 3000
-#define ACTUAL_SHOW_TIMES 400
+#define ACTUAL_SHOW_TIMES 250
 
 #define RESET_DATA 6000
 
 #define	RESET_VALUE 255
 
-#define OCP_TRIGGER_NUMBER 3 
-
-#define CV_TRIGGER_NUMBER 10 
-
-#define CONT_OCP_PROTECT_TIME 600
 
 #define FAN_CH1 250
 #define FAN_CH2 500
 #define FAN_CH3 750
 #define FAN_CH4 999
+
+
+#define HIGH_ERROR_THRESHOLD 100 //1V
+#define LOW_ERROR_THRESHOLD 100 //1V
 
 
 typedef enum
@@ -86,6 +85,22 @@ typedef enum
 	SPEAK_OPEN = 0,
 	SPEAK_CLOSE,
 } speak_mode_e;
+
+
+typedef enum
+{
+	JUST_USB = 0,
+	JUST_TYPEC,
+	BOTH_USE,
+} Quick_charge_e;
+
+typedef enum
+{
+	VOLTAGE_NORMAL = 0,    // µçÑ¹Õý³£
+    VOLTAGE_HIGH_ERROR,    // ¸ßÑ¹´íÎó
+    VOLTAGE_LOW_ERROR      // µÍÑ¹´íÎó
+} error_state_e;
+
 
 
 typedef struct
@@ -177,16 +192,23 @@ typedef struct
 	uint16_t pid_update_times;
 	
 	
-	
 	int check_cur_times;
 } General_parameters_t;
+
+typedef struct
+{
+	bool volt_high_error ;
+	bool volt_low_error ;
+	
+} error_flag_e;
 
 
 typedef struct
 {
 	System_parameters_t system_parameters;
 	General_parameters_t General_parameters;
-	
+	error_flag_e error_flag;
+
 	ocp_mode_e ocp_mode;
 	ocp_mode_e last_ocp_mode;
 	ocp_mode_e mod1_ocp_mode;
@@ -206,6 +228,12 @@ typedef struct
 	ammeter_state_e last_ammeter_state;
 	
 	check_ammeter_mode_e check_ammeter_mode;
+	
+	Quick_charge_e Quick_charge_mode;
+	Quick_charge_e Last_Quick_charge_mode;
+	
+	error_state_e error_state;
+	
 
 } PS305D_t;
 

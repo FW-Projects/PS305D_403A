@@ -6,13 +6,17 @@
 #include <string.h>
 #include "at32f403a_407.h"
 #include "at32_Usart.h"
-
 #define PC_HANDLE_TIME   1
 #define PC_USART         0
 #define PC_DEVECE_ID     0x00
-#define LOCAL_DEVECE_ID  0x03
+#define LOCAL_DEVECE_ID  0x02
 #define PC_RX_BUFF_SIZE  256
 #define PC_TX_BUFF_SIZE  256
+
+#define LOCAL_DEVICE_ID_1 0x02
+#define LOCAL_DEVICE_ID_2 0x04
+
+#define PC_CRC_BUFF_SIZE 256
 
 #define PC_CRC_SIZE      4
 #define PC_MAX_SEND_SIZE 22
@@ -90,11 +94,11 @@ typedef struct PCObject
     uint8_t rx_buff[PC_RX_BUFF_SIZE];
     uint8_t read_size;
     uint8_t tx_buff[PC_TX_BUFF_SIZE];
-    uint32_t check_crc_buff[PC_CRC_SIZE];
+    uint32_t check_crc_buff[PC_CRC_BUFF_SIZE];
 
 } PC_DATA_t;
 void pc_comm_handle(void);
 
 #endif
 
-
+ 

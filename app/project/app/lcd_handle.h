@@ -58,6 +58,7 @@ typedef enum
 
 
 extern uint8_t table[];
+extern int actual_display_times;
 
 
 void lcd_handle(void);

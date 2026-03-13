@@ -137,7 +137,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -313,7 +313,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>2</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -332,7 +332,7 @@
             <v6LangP>3</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
-            <v6Lto>0</v6Lto>
+            <v6Lto>1</v6Lto>
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
@@ -434,24 +434,19 @@
           <GroupName>firmware</GroupName>
           <Files>
             <File>
+              <FileName>at32f403a_407_crc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_crc.c</FilePath>
+            </File>
+            <File>
               <FileName>at32f403a_407_crm.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\libraries\drivers\src\at32f403a_407_crm.c</FilePath>
             </File>
             <File>
-              <FileName>at32f403a_407_gpio.c</FileName>
+              <FileName>at32f403a_407_debug.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\libraries\drivers\src\at32f403a_407_gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>at32f403a_407_usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\libraries\drivers\src\at32f403a_407_usart.c</FilePath>
-            </File>
-            <File>
-              <FileName>at32f403a_407_pwc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\libraries\drivers\src\at32f403a_407_pwc.c</FilePath>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_debug.c</FilePath>
             </File>
             <File>
               <FileName>at32f403a_407_flash.c</FileName>
@@ -459,9 +454,9 @@
               <FilePath>..\..\libraries\drivers\src\at32f403a_407_flash.c</FilePath>
             </File>
             <File>
-              <FileName>at32f403a_407_crc.c</FileName>
+              <FileName>at32f403a_407_gpio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\libraries\drivers\src\at32f403a_407_crc.c</FilePath>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_gpio.c</FilePath>
             </File>
             <File>
               <FileName>at32f403a_407_misc.c</FileName>
@@ -469,9 +464,14 @@
               <FilePath>..\..\libraries\drivers\src\at32f403a_407_misc.c</FilePath>
             </File>
             <File>
-              <FileName>at32f403a_407_debug.c</FileName>
+              <FileName>at32f403a_407_pwc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\libraries\drivers\src\at32f403a_407_debug.c</FilePath>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_pwc.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_usart.c</FilePath>
             </File>
           </Files>
         </Group>

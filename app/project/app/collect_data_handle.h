@@ -4,6 +4,9 @@
 
 #define COLLECT_DATA_TASK_TIME          10
 
+#define OFFSET_VOLTAGE 1
+
+
 
 void collect_data_handle(void);
 #endif

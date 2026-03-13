@@ -97,7 +97,6 @@ int main(void)
 
   /* init usart1 function. */
   wk_usart1_init();
-  
 
   /* init crc function. */
   wk_crc_init();

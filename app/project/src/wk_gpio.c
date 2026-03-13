@@ -57,7 +57,7 @@ void wk_gpio_config(void)
   gpio_init(GPIOC, &gpio_init_struct);
 
   gpio_init_struct.gpio_mode = GPIO_MODE_INPUT;
-  gpio_init_struct.gpio_pins = SW_KEY6_PIN | EC11_2R_PIN | EC11_2L_PIN | MOD3_PIN;
+  gpio_init_struct.gpio_pins = SW_KEY6_PIN | EC11_2R_PIN | EC11_2L_PIN | LIMIN_500MA_PIN | MOD3_PIN;
   gpio_init_struct.gpio_pull = GPIO_PULL_UP;
   gpio_init(GPIOA, &gpio_init_struct);
 
@@ -71,11 +71,6 @@ void wk_gpio_config(void)
   gpio_init_struct.gpio_pins = OCPSENSE_PIN;
   gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
   gpio_init(OCPSENSE_GPIO_PORT, &gpio_init_struct);
-
-  gpio_init_struct.gpio_mode = GPIO_MODE_INPUT;
-  gpio_init_struct.gpio_pins = LIMIN_500MA_PIN;
-  gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
-  gpio_init(LIMIN_500MA_GPIO_PORT, &gpio_init_struct);
 
   gpio_init_struct.gpio_mode = GPIO_MODE_INPUT;
   gpio_init_struct.gpio_pins = LIMIN_5V_PIN;

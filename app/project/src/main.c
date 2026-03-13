@@ -103,7 +103,7 @@ void flash_task(void);
   * @retval none
   */
 int main(void)
-{
+ {
   /* add user code begin 1 */
   nvic_vector_table_set(NVIC_VECTTAB_FLASH, 0x4000);
   /* add user code end 1 */
@@ -165,6 +165,8 @@ int main(void)
 
   filter_init(&ADC_CRT, ADC_CHANNEL_6);
   filter_init(&ADC_VTG, ADC_CHANNEL_7);
+  filter_init(&ADC_TYPEC_CRT, ADC_CHANNEL_14);
+  filter_init(&ADC_USB_CRT, ADC_CHANNEL_8);
   Compensator_Init(&voltage_pid, 1, 0, 0, 60);
   Compensator_Init(&current_pid, 1, 0, 0, 60);
   TM1680Init();
@@ -222,38 +224,7 @@ void flash_task(void)
 
 void beep_task(void)
 {
-	static uint8_t ocp_time = 0;
-	static uint8_t ocp_number = 0;
-	
-	if(ps305d.speak_gate == SPEAK_OPEN)
-		BeepProc(&sbeep);
-	else if(ps305d.speak_gate == SPEAK_CLOSE)
-		sbeep.off();
-	
-	if(ps305d.General_parameters.ocp_triggered_flag == true)
-	{
-		ocp_time++;
-		if(ocp_time > 25)
-		{
-			ocp_time = 0;
-			if(ocp_number < 7)
-			{
-				ocp_number++;
-				sbeep.cmd = BEEP_LONG;
-			}
-			else
-			{
-				sbeep.cmd = BEEP_STOP;
-			}
-				
-		}	
-	}
-	else
-	{
-		ocp_time = 0;
-		ocp_number = 0;
-	}
-	
+	beep_handle();
 }
 
 void Output_task(void)

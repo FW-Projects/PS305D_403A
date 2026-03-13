@@ -3,8 +3,7 @@
   * @file     at32f403a_407_usart.c
   * @brief    contains all the functions for the usart firmware library
   **************************************************************************
-  *
-  * Copyright (c) 2025, Artery Technology, All rights reserved.
+  *                       Copyright notice & Disclaimer
   *
   * The software Board Support Package (BSP) that is made available to
   * download from Artery official website is the copyrighted work of Artery.
@@ -600,7 +599,7 @@ flag_status usart_flag_get(usart_type* usart_x, uint32_t flag)
   *         USART1, USART2, USART3, UART4, UART5, USART6, UART7 or UART8.
   * @param  flag: specifies the flag to check.
   *         this parameter can be one of the following values:
-  *         - USART_CTSCF_FLAG: cts change flag (not available for UART4,UART5,USART6,UART7 and UART8)
+  *         - USART_CTSCF_FLAG: cts change flag (not available for UART4,UART5)
   *         - USART_BFF_FLAG:   break frame flag
   *         - USART_TDBE_FLAG:  transmit data buffer empty flag
   *         - USART_TDC_FLAG:   transmit data complete flag

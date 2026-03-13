@@ -3,8 +3,7 @@
   * @file     mouse_class.h
   * @brief    usb hid mouse header file
   **************************************************************************
-  *
-  * Copyright (c) 2025, Artery Technology, All rights reserved.
+  *                       Copyright notice & Disclaimer
   *
   * The software Board Support Package (BSP) that is made available to
   * download from Artery official website is the copyrighted work of Artery.
@@ -88,7 +87,6 @@ typedef struct
   uint8_t mouse_buffer[4];
   uint8_t hid_state;
   __IO uint8_t hid_suspend_flag;
-  uint8_t send_state;
 }mouse_type;
 
 /**

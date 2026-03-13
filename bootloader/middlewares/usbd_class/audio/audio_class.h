@@ -3,8 +3,7 @@
   * @file     audio_class.h
   * @brief    usb audio class file
   **************************************************************************
-  *
-  * Copyright (c) 2025, Artery Technology, All rights reserved.
+  *                       Copyright notice & Disclaimer
   *
   * The software Board Support Package (BSP) that is made available to
   * download from Artery official website is the copyrighted work of Artery.
@@ -75,7 +74,6 @@ extern "C" {
 #define AUDIO_MUTE_CONTROL               0x01
 #define AUDIO_VOLUME_CONTROL             0x02
 #define AUDIO_FREQ_SET_CONTROL           0x03
-#define AUDIO_SAMPLING_FREQ_CONTROL      0x01
 
 /**
   * @brief audio descriptor type

@@ -3,10 +3,8 @@
 
 #include "at32f403a_407.h"
 
-#define ADC_USBA_CRT  8
 #define ADC_USBA_VTG  9
 
-#define ADC_TYPEC_CRT 14
 #define ADC_TYPEC_VTG 15
  
 #define ADC_NTC 10
@@ -28,6 +26,8 @@ filter_t;
 //extern filter_t ADC_TYPEC_VTG;
 //extern filter_t ADC_TYPEC_CRT;
 //extern filter_t ADC_USBA_VTG;
+extern filter_t ADC_TYPEC_CRT;
+extern filter_t ADC_USB_CRT;
 extern filter_t ADC_VTG;
 extern filter_t ADC_CRT;
 uint16_t get_adcval(adc_channel_select_type adc_channel);

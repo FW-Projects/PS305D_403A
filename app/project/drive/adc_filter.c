@@ -5,7 +5,8 @@
 
 filter_t ADC_VTG;
 filter_t ADC_CRT;
-
+filter_t ADC_TYPEC_CRT;
+filter_t ADC_USB_CRT;
 uint16_t get_adcval(adc_channel_select_type adc_channel);
 uint32_t move_average_filter(filter_t *filter);
 

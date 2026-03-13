@@ -181,6 +181,7 @@
             <Parameters name="Label" value="SCL"/>
         </Signal>
         <Signal SignalName="GPIO_Input" PinName="PA8">
+            <Parameters name="GPIO_PullType_Set" value="GPIO_PULL_UP"/>
             <Parameters name="Label" value="LIMIN_500MA"/>
         </Signal>
         <Signal SignalName="GPIO_Output" PinName="PA11">

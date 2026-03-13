@@ -3,27 +3,42 @@
 #include "PID_handle.h"
 #include "round_data.h"
 
-static char vol_com[3] = {0};
-static char cur_com[3] = {0};
-static uint8_t num = 0;
-static uint16_t last_set_voltage_data = 0x00;
-static uint16_t last_set_current_data = 0x00;
+// 补偿计时阈值
+#define COMPENSATION_TIMER_THRESHOLD    500
+// DAC输出最值限制（12位DAC，0~4095）
+#define DAC_OUTPUT_MAX_VALUE            4095
+#define DAC_VOLTAGE_MIN_VALUE           1   // 电压DAC最小输出值
+#define DAC_CURRENT_MIN_VALUE           0   // 电流DAC最小输出值
+
+// 补偿模式枚举
+typedef enum {
+    COMP_MODE_CALC = 0,    // 计算模式（PID补偿）
+    COMP_MODE_LOOKUP = 1   // 查表模式（快速调用）
+} CompensateMode;
+
+
+static uint16_t g_last_set_voltage_data = 0x00;  // 上一次设置的电压值
+static uint16_t g_last_set_current_data = 0x00;  // 上一次设置的电流值
+
+// 补偿计时变量（原分散定义，集中管理）
+static uint32_t g_compensation_timer = 0;        // 补偿模式切换计时
+static uint16_t  g_volt_pid_update_times = 0;     // 电压PID更新计数
+static uint16_t g_cur_comp_timer = 0x00;         // 电流补偿计时（原cur_com_time）
+
 void dac_output_control(uint16_t base_voltage, uint16_t base_current, int com_vol, int com_cur);
 int check_compensation(uint16_t set_v, uint16_t act_v);
 void dac_buffer_auto_switch(uint8_t dac_channel, uint16_t target_data, uint16_t threshold_value);
+
 /**
  * @brief 主控制循环（支持补偿存储与调用）
  */
 void Power_Output_Control_Loop(void)
 {
-	static uint32_t compensation_timer = 0;
-	static uint8_t voltage_compensation_mode = 0; // 0=计算模式，1=查表模式
-	static uint8_t current_compensation_mode = 0; // 0=计算模式，1=查表模式
-	static uint16_t voltage_compensation = 0;
-	static uint16_t current_compensation = 0;
-	static int vol_comp = 0;
-	static uint16_t last_set_vol = 0;
-	static uint16_t cur_com_time = 0x00;
+	static CompensateMode g_voltage_comp_mode = COMP_MODE_CALC;
+    static CompensateMode g_current_comp_mode = COMP_MODE_CALC;
+    static uint16_t g_voltage_compensation = 0;
+    static uint16_t g_current_compensation = 0;
+	
 #if 0
     // 1. 采集实际输出
     uint16_t actual_voltage = ps305d.system_parameters.actual_voltage_data;
@@ -93,177 +108,167 @@ void Power_Output_Control_Loop(void)
 	// 进行差值查询并补偿输出
 	
 	
-	/* Voltage */
+	/************************** 电压补偿逻辑 **************************/
 	if (ps305d.General_parameters.v_pid_update_flag == true)
 	{
-		ps305d.General_parameters.pid_update_times++;
-		if (ps305d.General_parameters.pid_update_times >= 500)
+		g_volt_pid_update_times++;
+		if (g_volt_pid_update_times >= 500)
 		{
 			ps305d.General_parameters.v_pid_update_flag = false;
-			ps305d.General_parameters.pid_update_times = 0;
-			last_set_voltage_data = 0x00;
-			ps305d.system_parameters.compensation_voltage_data = check_compensation(ps305d.system_parameters.set_voltage_data, ps305d.system_parameters.actual_voltage_data);
+			g_volt_pid_update_times = 0;
+			g_last_set_voltage_data  = 0x00;
+			ps305d.system_parameters.compensation_voltage_data = check_compensation(
+				ps305d.system_parameters.set_voltage_data, 
+				ps305d.system_parameters.actual_voltage_data);
 		}
 	}
 	else
 	{
-		ps305d.General_parameters.pid_update_times = 0;
+		g_volt_pid_update_times  = 0;
 		ps305d.system_parameters.compensation_voltage_data = 0x00;
 	}
 		
-	/* Current */
+	/************************** 电流补偿逻辑 **************************/
 	if (ps305d.General_parameters.i_pid_update_flag == true && ps305d.work_mode == CC)
 	{
-		cur_com_time++;
-		if(cur_com_time >= 500)
+		g_cur_comp_timer++;
+		if(g_cur_comp_timer >= 500)
 		{
-			cur_com_time = 0x00;
+			g_cur_comp_timer = 0x00;
 			ps305d.General_parameters.i_pid_update_flag = false;
-			last_set_current_data = 0x00;
-			ps305d.system_parameters.compensation_current_data = check_compensation(ps305d.system_parameters.set_current_data, ps305d.system_parameters.actual_current_data);
+			g_last_set_current_data  = 0x00;
+			
+			// 电流≥30时计算补偿，否则清零
+			if(ps305d.system_parameters.set_current_data >= 30)
+			{
+				ps305d.system_parameters.compensation_current_data = check_compensation(
+					ps305d.system_parameters.set_current_data,
+					ps305d.system_parameters.actual_current_data);
+			}
+			else
+			{
+				ps305d.system_parameters.compensation_current_data = 0;
+			}
 		}
 	}
 	else
 	{
+		// 未触发更新，补偿值清零
 		ps305d.system_parameters.compensation_current_data = 0x00;
 	}
 	
-	
-	dac_output_control(ps305d.system_parameters.set_voltage_data, ps305d.system_parameters.set_current_data,
-					   ps305d.system_parameters.compensation_voltage_data, ps305d.system_parameters.compensation_current_data);
-
+	/************************** DAC输出控制 **************************/
+	dac_output_control(ps305d.system_parameters.set_voltage_data, 
+						ps305d.system_parameters.set_current_data,
+						ps305d.system_parameters.compensation_voltage_data, 
+						ps305d.system_parameters.compensation_current_data);
 #endif
 }
 
+
+/************************** 补偿值计算 **************************/
 int check_compensation(uint16_t set_v, uint16_t act_v)
 {
-	int com_value = 0;
-
-	com_value = set_v - act_v;
-
+	int com_value = set_v - act_v;
 	return com_value;
 }
 
+
+/************************** DAC输出控制 **************************/
+/**
+ * @brief DAC输出控制（电压/电流）
+ * @param base_voltage: 基准电压设置值
+ * @param base_current: 基准电流设置值
+ * @param com_vol: 电压补偿值
+ * @param com_cur: 电流补偿值
+ * @note  仅当设置值变化时更新DAC输出，避免重复操作
+ */
 void dac_output_control(uint16_t base_voltage, uint16_t base_current, int com_vol, int com_cur)
 {
-	static float dac_output_crt_data = 0x00;
-	static float dac_output_vtg_data = 0x00;
-	static uint16_t dac_output_value = 0x00;
-	static uint16_t dac_output_value1 = 0x00;
+	  // 静态变量：DAC输出缓存
+    static float g_dac_current_output = 0.0f;  // 电流DAC输出计算值
+    static float g_dac_voltage_output = 0.0f; // 电压DAC输出计算值
+    static uint16_t g_dac_current_value = 0x00; // 电流DAC最终输出值
+    static uint16_t g_dac_voltage_value = 0x00; // 电压DAC最终输出值
 	
-	static int sum_voltage_data = 0;
-	static int sum_current_data = 0;
-	
-	/* current output control */
-	if (last_set_current_data != ps305d.system_parameters.set_current_data)
+	/************************** 电流DAC输出控制 **************************/
+	if (g_last_set_current_data != ps305d.system_parameters.set_current_data)
 	{
-		last_set_current_data = ps305d.system_parameters.set_current_data;
+		g_last_set_current_data = ps305d.system_parameters.set_current_data;
 		
 		//自动切换dac输出缓存
 		dac_buffer_auto_switch(DAC2_SELECT,base_current,I_DAC_THRESHOLD_VALUE);
 		
-		sum_current_data = base_current + com_cur;
+		 // 计算电流补偿后总值
+		int sum_current  = base_current + com_cur;
 		
-		if(sum_current_data <= 0)
-			sum_voltage_data = 0;
+		// 限制最小值
+		if(sum_current <= DAC_CURRENT_MIN_VALUE)
+			sum_current = DAC_CURRENT_MIN_VALUE;
+		
+		// 电流DAC系数计算
+		g_dac_current_output  = sum_current * 0.819;
+		
+		// 四舍五入取整
+		g_dac_current_value = ROUND_TO_INT(g_dac_current_output);
+		
+		 // 限制DAC输出最大值（12位DAC）
+		if (g_dac_current_value  >= DAC_OUTPUT_MAX_VALUE)
+		{
+			g_dac_current_value  = DAC_OUTPUT_MAX_VALUE;
+		}
 
-		dac_output_crt_data = sum_current_data * 0.819;
-		
-		dac_output_value1 = ROUND_TO_INT(dac_output_crt_data);
-		
-		if (dac_output_value1 >= 4095)
-		{
-			dac_output_value1 = 4095;
-		}
-		if (dac_output_value1 <= 0)
-		{
-			dac_output_value1 = 0;
-		}
-		
-		dac_2_data_set(DAC2_12BIT_RIGHT, dac_output_value1);
+		// 更新DAC2输出
+		dac_2_data_set(DAC2_12BIT_RIGHT, g_dac_current_value);
 	}
 
-	/* voltage output control */
-	if (last_set_voltage_data != ps305d.system_parameters.set_voltage_data)
+	/************************** 电压DAC输出控制 **************************/
+	if (g_last_set_voltage_data  != ps305d.system_parameters.set_voltage_data)
 	{
-		last_set_voltage_data = ps305d.system_parameters.set_voltage_data;
+		g_last_set_voltage_data  = ps305d.system_parameters.set_voltage_data;
 		
 		//自动切换dac输出缓存
 		dac_buffer_auto_switch(DAC1_SELECT,base_voltage,V_DAC_THRESHOLD_VALUE);
 
-		sum_voltage_data = base_voltage + com_vol;
+		// 计算电压补偿后总值
+		int sum_voltage = base_voltage + com_vol;
 		
-		if(sum_voltage_data <= 1)
-			sum_voltage_data = 1;
-		
-		
-#if 0
-		/* 软线+硬件补偿 */
-		if(base_voltage < 100)
+		if(sum_voltage <= DAC_VOLTAGE_MIN_VALUE)
+			sum_voltage = DAC_VOLTAGE_MIN_VALUE;
+
+		// 电压DAC系数计算（纯硬件线性）
+		g_dac_voltage_output  = sum_voltage * 1.365;
+
+		//四舍五入取整
+		g_dac_voltage_value  = ROUND_TO_INT(g_dac_voltage_output);
+
+		// 限制DAC输出最值
+		if (g_dac_voltage_value  >= DAC_OUTPUT_MAX_VALUE)
 		{
-			dac_output_vtg_data = sum_voltage_data * 1.365;
+			g_dac_voltage_value  = DAC_OUTPUT_MAX_VALUE;
 		}
-		else if(base_voltage <= 500)
-			dac_output_vtg_data = (sum_voltage_data * 1.358) + 25;
-		else if(base_voltage <= 1000)
-			dac_output_vtg_data = (sum_voltage_data * 1.358) + 25;
-		else if(base_voltage <= 1500)
-			dac_output_vtg_data = (sum_voltage_data * 1.357) + 25;
-		else if(base_voltage <= 2000)
-			dac_output_vtg_data = (sum_voltage_data * 1.359) + 20;
-		else if(base_voltage <= 2500)
-			dac_output_vtg_data = (sum_voltage_data * 1.357) + 24.5;
-		else
-			dac_output_vtg_data = sum_voltage_data * 1.365;
-#endif
-
-#if 1
-		/* 纯硬件线性 */
-
-		dac_output_vtg_data = sum_voltage_data * 1.365;
-//		dac_output_vtg_data = base_voltage * 1.365;
-#endif
-
-		//四舍五入
-		dac_output_value = ROUND_TO_INT(dac_output_vtg_data);
-
-		if (dac_output_value >= 4095)
+		if (g_dac_voltage_value  <= DAC_VOLTAGE_MIN_VALUE)
 		{
-			dac_output_value = 4095;
-		}
-		if (dac_output_value <= 1)
-		{
-			dac_output_value = 1;
+			g_dac_voltage_value  = DAC_VOLTAGE_MIN_VALUE;
 		}
 	
-		dac_1_data_set(DAC1_12BIT_RIGHT, dac_output_value);
+		 // 更新DAC1输出
+		dac_1_data_set(DAC1_12BIT_RIGHT, g_dac_voltage_value);
 	}
 }
 
 
-
+/************************** DAC缓冲自动切换 **************************/
 /**
- * @brief  根据设置值切换DAC输出缓冲器状态
- * @param  dac_channel: DAC通道选择 (DAC1_SELECT 或 DAC2_SELECT)
- * @param  target_data: 设置输出值 
- * @param  threshold_value: 临界值
- * @retval 无
- * @note   当目标电压 < 0.1V 时关闭缓冲器，否则开启缓冲器
- * @note   当目标电压 < 0.1A 时关闭缓冲器，否则开启缓冲器
+ * @brief 根据设置值切换DAC输出缓冲器状态
+ * @param dac_channel: DAC通道选择 (DAC1_SELECT 或 DAC2_SELECT)
+ * @param target_data: 设置输出值
+ * @param threshold_value: 临界值（0.1V/0.1A）
+ * @note  目标值 < 临界值 → 关闭缓冲器；否则开启
  */
 void dac_buffer_auto_switch(uint8_t dac_channel, uint16_t target_data, uint16_t threshold_value)
 {
-    // 1. 电压阈值判断 (0.1V为临界值)
-    if (target_data < threshold_value)
-    {
-        // 关闭DAC输出缓冲器
-        dac_output_buffer_enable(dac_channel, FALSE);
-
-    }
-    else
-    {
-        // 开启DAC输出缓冲器
-        dac_output_buffer_enable(dac_channel, TRUE);
-
-    }
+	
+	uint8_t buffer_state = (target_data < threshold_value) ? FALSE : TRUE;
+    dac_output_buffer_enable(dac_channel, buffer_state);
 }

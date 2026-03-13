@@ -3,8 +3,7 @@
   * @file     custom_hid_class.c
   * @brief    usb custom hid class type
   **************************************************************************
-  *
-  * Copyright (c) 2025, Artery Technology, All rights reserved.
+  *                       Copyright notice & Disclaimer
   *
   * The software Board Support Package (BSP) that is made available to
   * download from Artery official website is the copyrighted work of Artery.
@@ -72,7 +71,7 @@ usbd_class_handler custom_hid_class_handler =
   * @param  udev: to the structure of usbd_core_type
   * @retval status of usb_sts_type
   */
-static usb_sts_type class_init_handler(void *udev)
+usb_sts_type class_init_handler(void *udev)
 {
   usb_sts_type status = USB_OK;
   usbd_core_type *pudev = (usbd_core_type *)udev;
@@ -92,8 +91,6 @@ static usb_sts_type class_init_handler(void *udev)
   /* set out endpoint to receive status */
   usbd_ept_recv(pudev, USBD_CUSTOM_HID_OUT_EPT, pcshid->g_rxhid_buff, USBD_CUSTOM_OUT_MAXPACKET_SIZE);
 
-  pcshid->send_state = 0;
-  
   return status;
 }
 
@@ -249,10 +246,7 @@ static usb_sts_type class_ept0_rx_handler(void *udev)
 static usb_sts_type class_in_handler(void *udev, uint8_t ept_num)
 {
   usb_sts_type status = USB_OK;
-  usbd_core_type *pudev = (usbd_core_type *)udev;
-  custom_hid_type *pcshid = (custom_hid_type *)pudev->class_handler->pdata;
-  
-  pcshid->send_state = 0;
+
   /* ...user code...
     trans next packet data
   */
@@ -338,16 +332,12 @@ static usb_sts_type class_event_handler(void *udev, usbd_event_type event)
   */
 usb_sts_type custom_hid_class_send_report(void *udev, uint8_t *report, uint16_t len)
 {
-  usb_sts_type status = USB_FAIL;
+  usb_sts_type status = USB_OK;
   usbd_core_type *pudev = (usbd_core_type *)udev;
-  custom_hid_type *pcshid = (custom_hid_type *)pudev->class_handler->pdata;
 
-  if(usbd_connect_state_get(pudev) == USB_CONN_STATE_CONFIGURED && pcshid->send_state == 0)
-  {
-    pcshid->send_state = 1;
+  if(usbd_connect_state_get(pudev) == USB_CONN_STATE_CONFIGURED)
     usbd_ept_send(pudev, USBD_CUSTOM_HID_IN_EPT, report, len);
-    status = USB_OK;
-  }
+
   return status;
 }
 
@@ -401,7 +391,7 @@ static void usb_hid_buf_process(void *udev, uint8_t *report, uint16_t len)
       {
         pcshid->g_txhid_buff[i_index] = report[i_index];
       }
-      custom_hid_class_send_report(pudev, pcshid->g_txhid_buff, len);
+      usbd_ept_send(pudev, USBD_CUSTOM_HID_IN_EPT, pcshid->g_txhid_buff, len);
       break;
     default:
       break;

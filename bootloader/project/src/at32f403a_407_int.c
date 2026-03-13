@@ -27,6 +27,7 @@
 /* includes ------------------------------------------------------------------*/
 #include "at32f403a_407_int.h"
 #include "wk_system.h"
+
 /* private includes ----------------------------------------------------------*/
 /* add user code begin private includes */
 #include <stdlib.h>
@@ -43,11 +44,12 @@
 
 /* private define ------------------------------------------------------------*/
 /* add user code begin private define */
-#define LOCAL_DEVICE_ID 0x02
+#define LOCAL_DEVICE_ID_1  0x02
+#define LOCAL_DEVICE_ID_2  0x04
 /* add user code end private define */
 
 /* private macro -------------------------------------------------------------*/
-/* add user code begin private macro */
+/* add user code begin privat e macro */
 
 /* add user code end private macro */
 
@@ -66,6 +68,7 @@ uint8_t pro_buff[2048];
 void usart1_send_ok(void);
 void usart1_send_error(void);
 void usart1_connet_pc(void);
+
 void copy_uint8_array(uint8_t* dest, const uint8_t* src, size_t start_offset, size_t length);
 uint32_t convert_data(const uint8_t *input_array, uint32_t *output_array,
                       uint32_t start_index, uint32_t end_index);
@@ -256,7 +259,6 @@ void USART1_IRQHandler(void)
         reval = usart_data_receive(USART1);
         usart1_rx_buff[count] = reval;
         count++;
-        
 		if(count == 22)
 		{
 		    convert_data(usart1_rx_buff,usart1_crc_buff,0x01,0x10);
@@ -281,8 +283,9 @@ void USART1_IRQHandler(void)
 				count = 0;
 			}
 
-		}
-		if (count == 1036)
+		}		
+
+        if (count == 1036)
         {
             count = 0;
             /* check data */
@@ -442,13 +445,17 @@ void usart1_send_ok(void)
 {
     uint32_t crc_value = 0;
     usart1_tx_buff[0] = 0xD1;
+	
     usart1_tx_buff[1] = 0x02;
     usart1_tx_buff[2] = 0x02;
-    usart1_tx_buff[3] = 0x00;
-    usart1_tx_buff[4] = LOCAL_DEVICE_ID;
+	
+    usart1_tx_buff[3] = LOCAL_DEVICE_ID_2;
+    usart1_tx_buff[4] = LOCAL_DEVICE_ID_1;
+	
     usart1_tx_buff[5] = 0x00;
     usart1_tx_buff[6] = 0x0A;
     usart1_tx_buff[7] = 0x1D;
+	
     usart1_tx_buff[8] = 0x00;
     usart1_tx_buff[9] = 0x00;
     usart1_tx_buff[10] = 0x00;
@@ -458,9 +465,11 @@ void usart1_send_ok(void)
     usart1_tx_buff[14] = 0x00;
     usart1_tx_buff[15] = 0x00;
     usart1_tx_buff[16] = 0x00;
+	
 	convert_data(usart1_tx_buff,usart1_crc_buff,1,16);
     crc_value = crc_block_calculate(usart1_crc_buff, 4);
     crc_data_reset();
+	
     usart1_tx_buff[17] = ((crc_value >> 24) & 0xff);
     usart1_tx_buff[18] = ((crc_value >> 16) & 0xff);
     usart1_tx_buff[19] = ((crc_value >> 8) & 0xff);
@@ -479,13 +488,17 @@ void usart1_send_error(void)
 {
     uint32_t crc_value = 0;
     usart1_tx_buff[0] = 0xD1;
+	
     usart1_tx_buff[1] = 0x02;
     usart1_tx_buff[2] = 0x02;
-    usart1_tx_buff[3] = 0x00;
-    usart1_tx_buff[4] = LOCAL_DEVICE_ID;
+	
+    usart1_tx_buff[3] = LOCAL_DEVICE_ID_2;
+    usart1_tx_buff[4] = LOCAL_DEVICE_ID_1;
+	
     usart1_tx_buff[5] = 0x00;
     usart1_tx_buff[6] = 0x0A;
     usart1_tx_buff[7] = 0x18;
+	
     usart1_tx_buff[8] = 0x00;
     usart1_tx_buff[9] = 0x00;
     usart1_tx_buff[10] = 0x00;
@@ -511,29 +524,38 @@ void usart1_send_error(void)
         while (usart_flag_get(USART1, USART_TDC_FLAG) == RESET);
     }
 }
+
 void usart1_connet_pc(void)
 {
     uint32_t crc_value = 0;
     usart1_tx_buff[0] = 0xD1;
+	
     usart1_tx_buff[1] = 0x01;
     usart1_tx_buff[2] = 0x01;
-    usart1_tx_buff[3] = 0x00;
-    usart1_tx_buff[4] = LOCAL_DEVICE_ID;
+	
+    usart1_tx_buff[3] = LOCAL_DEVICE_ID_2;
+    usart1_tx_buff[4] = LOCAL_DEVICE_ID_1;
+	
     usart1_tx_buff[5] = 0x00;
     usart1_tx_buff[6] = 0x0A;
-    usart1_tx_buff[7] = 0x18;
-    usart1_tx_buff[8] = 0x00;
-    usart1_tx_buff[9] = 0x00;
-    usart1_tx_buff[10] = 0x00;
+	
+    usart1_tx_buff[7] = 0x01;
+    usart1_tx_buff[8] = 0x05;
+    usart1_tx_buff[9] = 0x09;
+	
+    usart1_tx_buff[10] = 0x01;
     usart1_tx_buff[11] = 0x00;
     usart1_tx_buff[12] = 0x00;
+	
     usart1_tx_buff[13] = 0x00;
     usart1_tx_buff[14] = 0x00;
     usart1_tx_buff[15] = 0x00;
     usart1_tx_buff[16] = 0x00;
+	
 	convert_data(usart1_tx_buff,usart1_crc_buff,1,16);
     crc_value = crc_block_calculate(usart1_crc_buff, 4);
     crc_data_reset();
+	
     usart1_tx_buff[17] = ((crc_value >> 24) & 0xff);
     usart1_tx_buff[18] = ((crc_value >> 16) & 0xff);
     usart1_tx_buff[19] = ((crc_value >> 8) & 0xff);

@@ -66,15 +66,12 @@ void wk_dac_init(void)
 
   dac_output_buffer_enable(DAC1_SELECT, FALSE);
 
-//  dac_output_buffer_enable(DAC1_SELECT, TRUE);
-
   dac_enable(DAC1_SELECT, TRUE);
 
   /*dac OUT2 init--------------------------------------------------------------------*/
   dac_trigger_enable(DAC2_SELECT, FALSE);
 
-//  dac_output_buffer_enable(DAC2_SELECT, FALSE);
- dac_output_buffer_enable(DAC2_SELECT, TRUE);
+  dac_output_buffer_enable(DAC2_SELECT, FALSE);
 
   dac_enable(DAC2_SELECT, TRUE);
 

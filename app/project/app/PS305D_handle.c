@@ -68,5 +68,7 @@ void PS305D_init(PS305D_t *fwps305d)
 	fwps305d->init_transformer_control = false;
 	fwps305d->ammeter_state = NO_AMMETER;
 	fwps305d->check_ammeter_mode = CHECK_GPIO_STATE;
+	fwps305d->Quick_charge_mode = JUST_USB;
+	fwps305d->error_state = VOLTAGE_NORMAL;
 
 }

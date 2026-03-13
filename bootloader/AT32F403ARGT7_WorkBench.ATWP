@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Root>
     <WorkBenchVersion>
-        <Version>V1.1.09</Version>
+        <Version>V1.2.00</Version>
     </WorkBenchVersion>
     <MCUInfo>
         <MCUSerials>AT32F403A</MCUSerials>
@@ -39,7 +39,7 @@
             <ModeSub name="Mode" value="Asynchronous"/>
         </Mode>
         <Parameters>
-            <ParametersSub name="RealBaudRate" value="115207"/>
+            <ParametersSub name="RealBaudRate" value="115163"/>
         </Parameters>
     </USART1>
     <NVIC>
@@ -53,8 +53,8 @@
         <hext>8.000000</hext>
         <hextdiv>2</hextdiv>
         <pllhextdiv>0</pllhextdiv>
-        <pllrcs>0</pllrcs>
-        <pllmult>25</pllmult>
+        <pllrcs>1</pllrcs>
+        <pllmult>60</pllmult>
         <sclkselect>1</sclkselect>
         <ahbdiv>1</ahbdiv>
         <apb1div>2</apb1div>
@@ -77,7 +77,7 @@
     </PINInfo>
     <ProjectInfomation>
         <ProjectName>AT32F403ARGT7_WorkBench</ProjectName>
-        <ProjectLocation>D:/AT32_project/PS305D_403a/bootloader</ProjectLocation>
+        <ProjectLocation>C:/Users/Administrator/Desktop/bootloader</ProjectLocation>
         <ToolchainIDE>MDK_V5</ToolchainIDE>
         <ARMCompiler>0</ARMCompiler>
         <KeepUserCode>true</KeepUserCode>
@@ -87,6 +87,6 @@
         <MinHeapSize>0x200</MinHeapSize>
         <MinStackSize>0x400</MinStackSize>
         <UseFirmware>true</UseFirmware>
-        <PackageVersion>V2.2.2</PackageVersion>
+        <PackageVersion>V2.2.1</PackageVersion>
     </ProjectInfomation>
 </Root>
