@@ -19,4 +19,4 @@
   ..\..\libraries\drivers\inc\at32f403a_407_usart.h \
   ..\..\libraries\drivers\inc\at32f403a_407_wdt.h ..\app\beep_handle.h \
   ..\drive\beep.h ..\app\PS305D_handle.h \
-  ..\inc\at32f403a_407_wk_config.h
+  ..\inc\at32f403a_407_wk_config.h ..\app\output_handle.h

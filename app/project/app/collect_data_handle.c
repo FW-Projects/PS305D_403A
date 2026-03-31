@@ -7,7 +7,6 @@
 
 void collect_typec_usb_data(void);
 uint16_t collect_voltage(void);
-uint16_t collect_current(void);
 
 /* Collect typec & usb voltage and current */
 
@@ -21,7 +20,7 @@ void collect_data_handle(void)
 }
 
 
-uint16_t collect_voltage(void)
+uint16_t collect_voltage(void)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 {
 	float adc_data = 0;
 	uint16_t output_data = 0;
@@ -50,9 +49,6 @@ uint16_t collect_current(void)
 	// Àƒ…·ŒÂ»Î
 	out_data = ROUND_TO_INT(adc_dat) ;
 
-	
-	
-	
 	return out_data;
 }
                                 

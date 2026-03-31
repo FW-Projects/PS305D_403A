@@ -136,7 +136,7 @@ void ec11_handle(void)
 void current_ec11_get_event(EC11_AnalyzeResult state)
 {
 	static int set_time2 = SET_SHOW_TIMES_VAL; // 电流显示超时计时
-	
+	static int disp_vision_time = 0x00;
 	switch (state)
 	{
 	case EC11_ANALYZE_CW:
@@ -194,6 +194,12 @@ void current_ec11_get_event(EC11_AnalyzeResult state)
 			// 切换蜂鸣器状态
 			ps305d.speak_gate = (ps305d.speak_gate == SPEAK_OPEN) ? SPEAK_CLOSE : SPEAK_OPEN;
 		}
+		else
+		{
+			//显示版本号
+			ps305d.check_vision_flag = true;
+			disp_vision_time = SET_SHOW_TIMES;
+		}
 		sbeep.cmd = BEEP_LONG;
 		break;
 	case EC11_ANALYZE_LONG_RELEASE:break;
@@ -203,7 +209,17 @@ void current_ec11_get_event(EC11_AnalyzeResult state)
 	case EC11_ANALYZE_FAST_CCW:break;
 	default:break;
 	}
-
+	
+	if(ps305d.check_vision_flag == true)
+	{
+		disp_vision_time--;
+		if(disp_vision_time <= 0)
+		{
+			ps305d.check_vision_flag = false;
+		}
+	}
+	
+	
 	// 电流显示超时处理
 	if (ps305d.General_parameters.cur_display_position != 0)
 	{
@@ -211,10 +227,6 @@ void current_ec11_get_event(EC11_AnalyzeResult state)
 		{
 			ps305d.General_parameters.last_cur_flicker_display_flag = false;
 			set_time2--;
-//			if (set_time2 <= CUR_SHOW_TIMEOUT_THRESHOLD)
-//			{
-//				ps305d.General_parameters.last_cur_flicker_display_flag = false;
-//			}
 			if (set_time2 <= 0)
 			{
 				set_time2 = SET_SHOW_TIMES;
@@ -250,7 +262,7 @@ void voltage_ec11_get_event(EC11_AnalyzeResult state)
 		{
 			switch (ps305d.General_parameters.vol_display_position)
 			{
-				case 0:  g_vol_ec11_event = VOLTAGE_HUNDRED_ADD;   break;
+				case 0:  g_vol_ec11_event = VOLTAGE_TEN_ADD;   break;
 				case 1:  g_vol_ec11_event = VOLTAGE_THOUSAND_ADD;  break;
 				case 2:  g_vol_ec11_event = VOLTAGE_HUNDRED_ADD;   break;
 				case 3:  g_vol_ec11_event = VOLTAGE_TEN_ADD;       break;
@@ -270,7 +282,7 @@ void voltage_ec11_get_event(EC11_AnalyzeResult state)
 		{
 			switch (ps305d.General_parameters.vol_display_position)
 			{
-				case 0:  g_vol_ec11_event = VOLTAGE_HUNDRED_REDUCE; break;
+				case 0:  g_vol_ec11_event = VOLTAGE_TEN_REDUCE; break;
 				case 1:  g_vol_ec11_event = VOLTAGE_THOUSAND_REDUCE;break;
 				case 2:  g_vol_ec11_event = VOLTAGE_HUNDRED_REDUCE; break;
 				case 3:  g_vol_ec11_event = VOLTAGE_TEN_REDUCE;     break;

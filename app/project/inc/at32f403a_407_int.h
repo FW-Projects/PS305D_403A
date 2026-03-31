@@ -37,7 +37,6 @@ extern "C" {
 
 /* private includes ----------------------------------------------------------*/
 /* add user code begin private includes */
-
 /* add user code end private includes */
 
 /* exported types ------------------------------------------------------------*/
@@ -67,8 +66,12 @@ void PendSV_Handler(void);
 
 void SysTick_Handler(void);
 
+void TMR1_OVF_TMR10_IRQHandler(void);
+void USART1_IRQHandler(void);
 /* add user code begin exported functions */
-
+void delay_tick_us(uint32_t us);
+extern uint32_t us_tick;        // 全局μs计时（供状态机用）
+extern uint8_t ocp_exint_state;
 /* add user code end exported functions */
 
 #ifdef __cplusplus

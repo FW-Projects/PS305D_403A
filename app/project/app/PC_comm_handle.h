@@ -6,7 +6,7 @@
 #include <string.h>
 #include "at32f403a_407.h"
 #include "at32_Usart.h"
-#define PC_HANDLE_TIME   1
+#define PC_HANDLE_TIME   10
 #define PC_USART         0
 #define PC_DEVECE_ID     0x00
 #define LOCAL_DEVECE_ID  0x02

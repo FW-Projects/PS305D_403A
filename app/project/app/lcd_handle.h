@@ -2,8 +2,7 @@
 #define __LCD_HANDLE_H
 #include "TM1680.h"
 
-
-#define LCD_TASK_TIME          1
+#define LCD_TASK_TIME          10
 
 
 

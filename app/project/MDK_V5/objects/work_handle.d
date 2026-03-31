@@ -22,4 +22,5 @@
   D:\keil5.42\GorgonMeducer\perf_counter\2.4.0\perf_counter.h \
   D:\keil5.42\GorgonMeducer\perf_counter\2.4.0\perfc_port_default.h \
   ..\..\libraries\cmsis\cm4\core_support\cmsis_compiler.h \
-  ..\drive\adc_filter.h
+  ..\drive\adc_filter.h ..\app\output_handle.h \
+  ..\app\collect_data_handle.h ..\inc\at32f403a_407_int.h

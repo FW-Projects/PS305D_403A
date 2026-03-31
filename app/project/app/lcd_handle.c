@@ -23,6 +23,7 @@ void current_display_handle(void);
 void led_display_handle(void);
 void data_display_state(void);
 void Quick_charge_display_handle(void);
+void Disp_Vision(void);
 
 uint8_t get_digit(uint16_t num, uint8_t index)
 {
@@ -42,7 +43,15 @@ void lcd_handle(void)
 	case 0:
 		data_display_state();
 		current_display_handle();
-		voltage_display_handle();
+		
+		if(ps305d.check_vision_flag == true)
+		{
+			Disp_Vision();
+		}
+		else
+		{
+			voltage_display_handle();
+		}
 		display_run++;
 		break;
 	case 1:
@@ -75,73 +84,95 @@ void led_display_handle(void)
 	led_postion1_e led1_postion_state = CV_NOOCP;
 	led_postion2_e led2_postion_state = NOTHING;
 
-	if (ps305d.last_work_mode != ps305d.work_mode ||
-		ps305d.last_ocp_mode != ps305d.ocp_mode ||
-		ps305d.General_parameters.ocp_triggered_flag == true)
+	if(ps305d.error_state == VOLTAGE_NORMAL)
 	{
-		ps305d.last_work_mode = ps305d.work_mode;
-		ps305d.last_ocp_mode = ps305d.ocp_mode;
-		if (ps305d.work_mode == CV || ps305d.ocp_mode != NO_OCP_MODE)
+		if (ps305d.last_work_mode != ps305d.work_mode ||
+			ps305d.last_ocp_mode != ps305d.ocp_mode ||
+			ps305d.General_parameters.ocp_triggered_flag == true)
 		{
-			if (ps305d.ocp_mode == NO_OCP_MODE)
+			ps305d.last_work_mode = ps305d.work_mode;
+			ps305d.last_ocp_mode = ps305d.ocp_mode;
+			if (ps305d.work_mode == CV || ps305d.ocp_mode != NO_OCP_MODE)
 			{
-				led1_postion_state = CV_NOOCP;
-			}
-			else if (ps305d.ocp_mode == CONT_OCP_MODE)
-			{
-				led1_postion_state = CV_CONTOCP;
-			}
-			else if (ps305d.ocp_mode == ONCE_OCP_MODE)
-			{
-				if (ps305d.General_parameters.ocp_triggered_flag == true)
+				if (ps305d.ocp_mode == NO_OCP_MODE)
 				{
-					if (ps305d.General_parameters.ocp_flicker_display_flag == false)
-						TM1680Write4bit(40, CV_ONCEOCP);
-					else
-						TM1680Write4bit(40, CV_NOOCP);
+					led1_postion_state = CV_NOOCP;
 				}
-				else
-					led1_postion_state = CV_ONCEOCP;
+				else if (ps305d.ocp_mode == CONT_OCP_MODE)
+				{
+					led1_postion_state = CV_CONTOCP;
+				}
+				else if (ps305d.ocp_mode == ONCE_OCP_MODE)
+				{
+					if (ps305d.General_parameters.ocp_triggered_flag == true)
+					{
+						if (ps305d.General_parameters.ocp_flicker_display_flag == false)
+							TM1680Write4bit(40, CV_ONCEOCP);
+						else
+							TM1680Write4bit(40, CV_NOOCP);
+					}
+					else
+						led1_postion_state = CV_ONCEOCP;
+				}
 			}
+			else if (ps305d.work_mode == CC)
+			{
+				led1_postion_state = CC_NOOCP;
+			}
+//			if (ps305d.General_parameters.ocp_triggered_flag != true)
+			 	TM1680Write4bit(40, led1_postion_state);
 		}
-		else if (ps305d.work_mode == CC)
-		{
-			led1_postion_state = CC_NOOCP;
-		}
-		if (ps305d.General_parameters.ocp_triggered_flag != true)
-			TM1680Write4bit(40, led1_postion_state);
-	}
 
-	if (last_cur_limin_flag != ps305d.General_parameters.current_limit_flag ||
-		last_vol_limin_flag != ps305d.General_parameters.voltage_limit_flag ||
-		last_lock_state != ps305d.lock_gate)
+		if (last_cur_limin_flag != ps305d.General_parameters.current_limit_flag ||
+			last_vol_limin_flag != ps305d.General_parameters.voltage_limit_flag ||
+			last_lock_state != ps305d.lock_gate)
+		{
+			last_cur_limin_flag = ps305d.General_parameters.current_limit_flag;
+			last_vol_limin_flag = ps305d.General_parameters.voltage_limit_flag;
+			last_lock_state = ps305d.lock_gate;
+			if (ps305d.lock_gate == LOCK)
+			{
+				if (ps305d.General_parameters.voltage_limit_flag == true && ps305d.General_parameters.current_limit_flag == true)
+					led2_postion_state = VLimin_ALimin_Lock;
+				else if (ps305d.General_parameters.voltage_limit_flag == true && ps305d.General_parameters.current_limit_flag == false)
+					led2_postion_state = VLimin_Lock;
+				else if (ps305d.General_parameters.voltage_limit_flag == false && ps305d.General_parameters.current_limit_flag == true)
+					led2_postion_state = ALimin_Lock;
+				else if (ps305d.General_parameters.voltage_limit_flag == false && ps305d.General_parameters.current_limit_flag == false)
+					led2_postion_state = Lock;
+			}
+			else
+			{
+				if (ps305d.General_parameters.voltage_limit_flag == true && ps305d.General_parameters.current_limit_flag == true)
+					led2_postion_state = VLimin_ALimin;
+				else if (ps305d.General_parameters.voltage_limit_flag == true && ps305d.General_parameters.current_limit_flag == false)
+					led2_postion_state = VLimin;
+				else if (ps305d.General_parameters.voltage_limit_flag == false && ps305d.General_parameters.current_limit_flag == true)
+					led2_postion_state = ALimin;
+				else if (ps305d.General_parameters.voltage_limit_flag == false && ps305d.General_parameters.current_limit_flag == false)
+					led2_postion_state = NOTHING;
+			}
+			TM1680Write4bit(41, led2_postion_state);
+		}
+	}
+	else
 	{
-		last_cur_limin_flag = ps305d.General_parameters.current_limit_flag;
-		last_vol_limin_flag = ps305d.General_parameters.voltage_limit_flag;
-		last_lock_state = ps305d.lock_gate;
-		if (ps305d.lock_gate == LOCK)
-		{
-			if (ps305d.General_parameters.voltage_limit_flag == true && ps305d.General_parameters.current_limit_flag == true)
-				led2_postion_state = VLimin_ALimin_Lock;
-			else if (ps305d.General_parameters.voltage_limit_flag == true && ps305d.General_parameters.current_limit_flag == false)
-				led2_postion_state = VLimin_Lock;
-			else if (ps305d.General_parameters.voltage_limit_flag == false && ps305d.General_parameters.current_limit_flag == true)
-				led2_postion_state = ALimin_Lock;
-			else if (ps305d.General_parameters.voltage_limit_flag == false && ps305d.General_parameters.current_limit_flag == false)
-				led2_postion_state = Lock;
-		}
-		else
-		{
-			if (ps305d.General_parameters.voltage_limit_flag == true && ps305d.General_parameters.current_limit_flag == true)
-				led2_postion_state = VLimin_ALimin;
-			else if (ps305d.General_parameters.voltage_limit_flag == true && ps305d.General_parameters.current_limit_flag == false)
-				led2_postion_state = VLimin;
-			else if (ps305d.General_parameters.voltage_limit_flag == false && ps305d.General_parameters.current_limit_flag == true)
-				led2_postion_state = ALimin;
-			else if (ps305d.General_parameters.voltage_limit_flag == false && ps305d.General_parameters.current_limit_flag == false)
-				led2_postion_state = NOTHING;
-		}
-		TM1680Write4bit(41, led2_postion_state);
+
+		if (ps305d.General_parameters.led_error_flicker_display_flag == true ||
+				ps305d.General_parameters.last_led_error_flicker_display_flag == true)
+			{
+				ps305d.General_parameters.last_led_error_flicker_display_flag = false;
+				TM1680Write4bit(40, 0xff);
+				TM1680Write4bit(41, 0xff);
+			}
+			else if (ps305d.General_parameters.vol_flicker_display_flag == false &&
+					 ps305d.General_parameters.last_led_error_flicker_display_flag == false)
+			{
+				ps305d.General_parameters.last_led_error_flicker_display_flag = true;
+				TM1680Write4bit(40, 0x00);
+				TM1680Write4bit(41, 0x00);
+			}
+		
 	}
 }
 
@@ -268,7 +299,7 @@ void Check_QC_PD(void)
 	static uint8_t just_typec_number = 0x00;
 	static uint8_t both_number = 0x00;
 		
-	if(ps305d.system_parameters.typec_voltage_data < 500 && ps305d.system_parameters.usb_voltage_data != 0x00)
+	if(ps305d.system_parameters.typec_voltage_data < 300 && ps305d.system_parameters.usb_voltage_data != 0x00)
 	{
 		/* just usb */
 		just_usb_number++;
@@ -512,6 +543,14 @@ void Set_Voltage_display(uint16_t set_voltage_data)
 	}
 }
 
+void Disp_Vision(void)
+{
+	Disp_one_person(0, LCDSEG_G);
+	Disp_one_person(2, VISION_BAI);
+	Disp_one_person(4, VISION_SHI);
+	Disp_one_person(6, VISION_GE);
+	
+}
 void Actual_Voltage_display(uint16_t act_voltage_data)
 {
 	uint8_t t, temp;

@@ -2,7 +2,8 @@
 #include "wk_dac.h"
 #include "PID_handle.h"
 #include "round_data.h"
-
+#include "output_handle.h"
+#include "work_handle.h"
 // 补偿计时阈值
 #define COMPENSATION_TIMER_THRESHOLD    500
 // DAC输出最值限制（12位DAC，0~4095）
@@ -17,8 +18,8 @@ typedef enum {
 } CompensateMode;
 
 
-static uint16_t g_last_set_voltage_data = 0x00;  // 上一次设置的电压值
-static uint16_t g_last_set_current_data = 0x00;  // 上一次设置的电流值
+unsigned int g_last_set_voltage_data = 0x00;  // 上一次设置的电压值
+unsigned int g_last_set_current_data = 0x00;  // 上一次设置的电流值
 
 // 补偿计时变量（原分散定义，集中管理）
 static uint32_t g_compensation_timer = 0;        // 补偿模式切换计时
@@ -100,8 +101,10 @@ void Power_Output_Control_Loop(void)
 	//无任何修正
 	ps305d.system_parameters.compensation_voltage_data = 0x00;
 	ps305d.system_parameters.compensation_current_data = 0x00;
-	dac_output_control(ps305d.system_parameters.set_voltage_data,ps305d.system_parameters.set_current_data,voltage_compensation,current_compensation);
-	
+	dac_output_control(ps305d.system_parameters.set_voltage_data, 
+						ps305d.system_parameters.set_current_data,
+						ps305d.system_parameters.compensation_voltage_data, 
+						ps305d.system_parameters.compensation_current_data);	
 #endif
 
 #if 1
@@ -109,37 +112,37 @@ void Power_Output_Control_Loop(void)
 	
 	
 	/************************** 电压补偿逻辑 **************************/
-	if (ps305d.General_parameters.v_pid_update_flag == true)
-	{
-		g_volt_pid_update_times++;
-		if (g_volt_pid_update_times >= 500)
-		{
-			ps305d.General_parameters.v_pid_update_flag = false;
-			g_volt_pid_update_times = 0;
-			g_last_set_voltage_data  = 0x00;
-			ps305d.system_parameters.compensation_voltage_data = check_compensation(
-				ps305d.system_parameters.set_voltage_data, 
-				ps305d.system_parameters.actual_voltage_data);
-		}
-	}
-	else
-	{
-		g_volt_pid_update_times  = 0;
-		ps305d.system_parameters.compensation_voltage_data = 0x00;
-	}
-		
+//	if (ps305d.General_parameters.v_pid_update_flag == true && ps305d.General_parameters.ocp_triggered_flag == false)
+//	{
+//		g_volt_pid_update_times++;
+//		if (g_volt_pid_update_times >= 500)
+//		{
+//			ps305d.General_parameters.v_pid_update_flag = false;
+//			g_volt_pid_update_times = 0;
+//			g_last_set_voltage_data  = 0x00;
+//			ps305d.system_parameters.compensation_voltage_data = check_compensation(
+//				ps305d.system_parameters.set_voltage_data, 
+//				ps305d.system_parameters.actual_voltage_data);
+//		}
+//	}
+//	else
+//	{
+//		g_volt_pid_update_times  = 0;
+//		ps305d.system_parameters.compensation_voltage_data = 0x00;
+//	}
+	ps305d.system_parameters.compensation_voltage_data = 0x00;
 	/************************** 电流补偿逻辑 **************************/
 	if (ps305d.General_parameters.i_pid_update_flag == true && ps305d.work_mode == CC)
 	{
 		g_cur_comp_timer++;
-		if(g_cur_comp_timer >= 500)
+		if(g_cur_comp_timer >= CURRENT_COMP_TIMES) //
 		{
 			g_cur_comp_timer = 0x00;
 			ps305d.General_parameters.i_pid_update_flag = false;
 			g_last_set_current_data  = 0x00;
 			
-			// 电流≥30时计算补偿，否则清零
-			if(ps305d.system_parameters.set_current_data >= 30)
+			// 电流≥30 、电流<3000时计算补偿，否则清零
+			if(ps305d.system_parameters.set_current_data >= 30 )
 			{
 				ps305d.system_parameters.compensation_current_data = check_compensation(
 					ps305d.system_parameters.set_current_data,
@@ -202,7 +205,7 @@ void dac_output_control(uint16_t base_voltage, uint16_t base_current, int com_vo
 		 // 计算电流补偿后总值
 		int sum_current  = base_current + com_cur;
 		
-		// 限制最小值
+		// 限制最小值   
 		if(sum_current <= DAC_CURRENT_MIN_VALUE)
 			sum_current = DAC_CURRENT_MIN_VALUE;
 		
@@ -239,7 +242,7 @@ void dac_output_control(uint16_t base_voltage, uint16_t base_current, int com_vo
 		// 电压DAC系数计算（纯硬件线性）
 		g_dac_voltage_output  = sum_voltage * 1.365;
 
-		//四舍五入取整
+		//四舍五入取整 
 		g_dac_voltage_value  = ROUND_TO_INT(g_dac_voltage_output);
 
 		// 限制DAC输出最值

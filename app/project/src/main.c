@@ -55,6 +55,7 @@
 #include "adc_filter.h"
 #include "PID_handle.h"
 #include "flash_handle.h"
+#include "at32f403a_407_int.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -64,7 +65,8 @@
 
 /* private define ------------------------------------------------------------*/
 /* add user code begin private define */
-#define FEED_DOG_TASK_TIME 100
+#define FEED_DOG_TASK_TIME 1000
+#define OCP_TASK_TIME 1
 /* add user code end private define */
 
 /* private macro -------------------------------------------------------------*/
@@ -74,7 +76,7 @@
 
 /* private variables ---------------------------------------------------------*/
 /* add user code begin private variables */
-
+static uint16_t cur_data = 0x00;
 /* add user code end private variables */
 
 /* private function prototypes --------------------------------------------*/
@@ -90,6 +92,8 @@ void key_task(void);
 void work_task(void);
 void collect_data_task(void);
 void flash_task(void);
+void check_ocp_task(void);
+void task_ocp(void);
 /* add user code end function prototypes */
 
 /* private user code ---------------------------------------------------------*/
@@ -103,7 +107,7 @@ void flash_task(void);
   * @retval none
   */
 int main(void)
- {
+{
   /* add user code begin 1 */
   nvic_vector_table_set(NVIC_VECTTAB_FLASH, 0x4000);
   /* add user code end 1 */
@@ -132,6 +136,9 @@ int main(void)
   /* init adc1 function. */
   wk_adc1_init();
 
+  /* init tmr1 function. */
+  wk_tmr1_init();
+
   /* init tmr4 function. */
   wk_tmr4_init();
 
@@ -147,17 +154,17 @@ int main(void)
   /* add user code begin 2 */
   tmt_init();
 
-  tmt.create(iap_task, IAP_TASK_TIME);
-  tmt.create(feed_dog_task, FEED_DOG_TASK_TIME);
-  tmt.create(pc_task,        PC_HANDLE_TIME);
-  tmt.create(lcd_task, LCD_TASK_TIME);
-  tmt.create(ec11_task, EC11_TASK_TIME);
-  tmt.create(beep_task, BEEP_TASK_TIME);
-  tmt.create(Output_task, OUTPUT_TASK_TIME);
-  tmt.create(key_task, KEY_TASK_TIME);
-  tmt.create(collect_data_task, COLLECT_DATA_TASK_TIME);
-  tmt.create(work_task, WORK_TASK_TIME);
-  tmt.create(flash_task,FLASH_TASK_TIME);
+  tmt.create(iap_task, IAP_TASK_TIME );
+  tmt.create(feed_dog_task, FEED_DOG_TASK_TIME );
+  tmt.create(pc_task,        PC_HANDLE_TIME );
+  tmt.create(lcd_task, LCD_TASK_TIME );
+  tmt.create(beep_task, BEEP_TASK_TIME );
+  tmt.create(Output_task, OUTPUT_TASK_TIME );
+  tmt.create(key_task, KEY_TASK_TIME );
+  tmt.create(collect_data_task, COLLECT_DATA_TASK_TIME );
+  tmt.create(work_task, WORK_TASK_TIME );
+  tmt.create(flash_task,FLASH_TASK_TIME );
+  tmt.create(check_ocp_task,OCP_TASK_TIME );
 
   init_cycle_counter(true);
   EventRecorderInitialize(0, 1);
@@ -208,14 +215,10 @@ void feed_dog_task(void)
  }
 
 void lcd_task(void)
-{
+{  
   lcd_handle();
 }
 
-void ec11_task(void)
-{
-//  ec11_handle();
-}
 
 void flash_task(void)
 {
@@ -257,5 +260,23 @@ void collect_data_task(void)
   collect_data_handle();
 #endif
 }
+
+void check_ocp_task(void)
+{
+	if(ps305d.output_state == OUTPUT)
+	{
+		if( ps305d.work_mode == CV)
+		{	
+			CV_handle();
+		}
+	}
+//	else
+//	{
+//		ps305d.work_mode = CV;
+//	}
+}
+
+
+
 
 /* add user code end 4 */

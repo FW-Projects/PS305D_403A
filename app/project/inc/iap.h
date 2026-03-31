@@ -53,7 +53,7 @@ extern "C" {
 indicates that an app upgrade will follow, see iap application note for more details */
 #define IAP_UPGRADE_FLAG         0x41544B38
 
-#define IAP_TASK_TIME          10
+#define IAP_TASK_TIME          100
 
 /**
   * @}

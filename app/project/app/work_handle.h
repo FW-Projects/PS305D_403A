@@ -1,10 +1,10 @@
 #ifndef _WORK_HANDLE_H
 #define _WORK_HANDLE_H
 #include "key.h"
-#define WORK_TASK_TIME          4
-
+#include "PS305D_handle.h"
+#define WORK_TASK_TIME          40 
 // 过流保护相关
-#define CONT_OCP_PROTECT_TIME_VAL    500    // 持续过流保护恢复时间
+#define CONT_OCP_PROTECT_TIME_VAL    250    // 持续过流保护恢复时间
 #define OCP_TRIGGER_NUMBER_VAL       5       // 过流触发次数阈值
 #define CV_TRIGGER_NUMBER_VAL        5       // 恒压恢复触发次数阈值
 // 风扇控制相关
@@ -27,9 +27,12 @@
 #define VOLT_GEAR_14V                1400    // 5.01~14V档位阈值
 #define VOLT_GEAR_21V                2100    // 14.01~21V档位阈值
 
+
+
+
 #define JK_1_HIGH gpio_bits_set(GPIOC,GPIO_PINS_2)
 #define JK_1_LOW  gpio_bits_reset(GPIOC,GPIO_PINS_2)
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 #define JK_2_HIGH gpio_bits_set(GPIOC,GPIO_PINS_1)
 #define JK_2_LOW  gpio_bits_reset(GPIOC,GPIO_PINS_1)
 
@@ -39,5 +42,15 @@
 #define OUTPUT_OPEN  gpio_bits_reset(GPIOA,GPIO_PINS_0)
 #define OUTPUT_CLOSE gpio_bits_set(GPIOA,GPIO_PINS_0)
 
+
+extern int cont_ocp_protect_time; // 持续过流保护计时
+extern bool dac_control_flag;
+
 void work_handle(void);
+void CV_handle(void);
+void CC_CV_OCP_handle(void);
+void ocp_handle(void);
+void CC_handle(void);
+void OUTPUT_LATCH_OFF(void);
+void OUTPUT_LATCH_ON(void);
 #endif

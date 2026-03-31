@@ -2,6 +2,7 @@
 #include "key_handle.h"
 #include "beep_handle.h"
 #include "PS305D_handle.h"
+#include "output_handle.h"
 
 KEY_EVENT key_event[KEY_NUMBER];
 static KEY keys[];
@@ -206,12 +207,12 @@ static void get_key(void)
         {
             if (ps305d.ocp_mode != NO_OCP_MODE)
             {
-                ps305d.ocp_mode = NO_OCP_MODE;
-                ps305d.last_ocp_mode = 0xff;
-                if (ps305d.General_parameters.ocp_triggered_flag == true)
+				if (ps305d.General_parameters.ocp_triggered_flag == true)
                 {
-                    ps305d.output_state = NO_OUTPUT;
+                    ps305d.General_parameters.ocp_triggered_flag = false;
+					ps305d.work_mode = CV;
                 }
+                ps305d.ocp_mode = NO_OCP_MODE;
             }
             sbeep.cmd = BEEP_SHORT;
             set_done = TRUE;
@@ -227,6 +228,7 @@ static void get_key(void)
                 if (ps305d.General_parameters.ocp_triggered_flag == true)
                 {
                     ps305d.General_parameters.ocp_triggered_flag = false;
+					ps305d.work_mode = CV;
                 }
                 ps305d.ocp_mode = NO_OCP_MODE;
             }
@@ -235,6 +237,7 @@ static void get_key(void)
                 if (ps305d.General_parameters.ocp_triggered_flag == true)
                 {
                     ps305d.General_parameters.ocp_triggered_flag = false;
+					ps305d.work_mode = CV;
                 }
                 ps305d.ocp_mode = CONT_OCP_MODE;
             }
@@ -252,6 +255,7 @@ static void get_key(void)
                 if (ps305d.General_parameters.ocp_triggered_flag == true)
                 {
                     ps305d.General_parameters.ocp_triggered_flag = false;
+					ps305d.work_mode = CV;
                 }
                 ps305d.ocp_mode = ONCE_OCP_MODE;
             }
@@ -261,9 +265,12 @@ static void get_key(void)
                 {
                     ps305d.General_parameters.ocp_triggered_flag = false;
                     ps305d.ocp_mode = ONCE_OCP_MODE;
+					ps305d.work_mode = CV;
                 }
                 else
+				{
                     ps305d.ocp_mode = NO_OCP_MODE;
+				}
             }
 
             sbeep.cmd = BEEP_SHORT;
@@ -294,6 +301,7 @@ static void get_key(void)
 					ps305d.General_parameters.i_pid_update_flag = true;
                     ps305d.General_parameters.pid_update_times = 0x00;
                 }
+				g_last_set_voltage_data = 0xffff;
             }
 			ps305d.system_parameters.actual_display_times1 = 0x00;
             sbeep.cmd = BEEP_SHORT;

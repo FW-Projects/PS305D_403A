@@ -32,6 +32,49 @@
 /* add user code end 0 */
 
 /**
+  * @brief  init tmr1 function.
+  * @param  none
+  * @retval none
+  */
+void wk_tmr1_init(void)
+{
+  /* add user code begin tmr1_init 0 */
+
+  /* add user code end tmr1_init 0 */
+
+
+  /* add user code begin tmr1_init 1 */
+
+  /* add user code end tmr1_init 1 */
+
+  /* configure counter settings */
+  tmr_cnt_dir_set(TMR1, TMR_COUNT_UP);
+  tmr_clock_source_div_set(TMR1, TMR_CLOCK_DIV1);
+  tmr_repetition_counter_set(TMR1, 0);
+  tmr_period_buffer_enable(TMR1, FALSE);
+  tmr_base_init(TMR1, 199, 0);
+
+  /* configure primary mode settings */
+  tmr_sub_sync_mode_set(TMR1, FALSE);
+  tmr_primary_mode_select(TMR1, TMR_PRIMARY_SEL_RESET);
+
+  tmr_counter_enable(TMR1, TRUE);
+
+  /**
+   * Users need to configure TMR1 interrupt functions according to the actual application.
+   * 1. Call the below function to enable the corresponding TMR1 interrupt.
+   *     --tmr_interrupt_enable(...)
+   * 2. Add the user's interrupt handler code into the below function in the at32f403a_407_int.c file.
+   *     --void TMR1_OVF_TMR10_IRQHandler(void)
+   */
+
+  /* add user code begin tmr1_init 2 */
+	tmr_interrupt_enable(TMR1,TMR_OVF_INT,TRUE);
+
+  /* add user code end tmr1_init 2 */
+}
+
+/**
   * @brief  init tmr4 function.
   * @param  none
   * @retval none

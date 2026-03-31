@@ -11,6 +11,7 @@ void PS305D_init(PS305D_t *fwps305d)
 
 	fwps305d->General_parameters.vol_flicker_display_flag = false;
 	fwps305d->General_parameters.cur_flicker_display_flag = false;
+	fwps305d->General_parameters.led_error_flicker_display_flag = false;
 
 	fwps305d->General_parameters.set_cur_flag = false;
 	fwps305d->General_parameters.set_vol_flag = false;
@@ -70,5 +71,6 @@ void PS305D_init(PS305D_t *fwps305d)
 	fwps305d->check_ammeter_mode = CHECK_GPIO_STATE;
 	fwps305d->Quick_charge_mode = JUST_USB;
 	fwps305d->error_state = VOLTAGE_NORMAL;
+	fwps305d->check_vision_flag = false;
 
 }

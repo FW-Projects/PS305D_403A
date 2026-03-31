@@ -24,6 +24,7 @@ void pc_comm_handle(void)
     if (time == 5)
     {
         pc_event_handle();
+		time = 0;
 
     }
 //    else if (time >= 100)
@@ -84,24 +85,23 @@ static void RecvDataFromPC(PC_DATA_t *pc)
 
 void pc_event_handle(void)
 {
-	static uint32_t crc_value;
+    static uint32_t crc_value;
+
     switch (pc_event)
     {
     case CONNECT_PC_EVENT:
         pc_data.tx_buff[PC_HEAD1] = PC_HEAD_1;
-	
         pc_data.tx_buff[PC_CMD1] = 0x01;
         pc_data.tx_buff[PC_CMD2] = 0x01;
-	
         pc_data.tx_buff[PC_ID_H] = LOCAL_DEVICE_ID_2;
         pc_data.tx_buff[PC_ID_L] = LOCAL_DEVICE_ID_1;
 	
         pc_data.tx_buff[PC_DATA_LEN_H] =  0x00;
         pc_data.tx_buff[PC_DATA_LEN_L] =  0x0A;
 	
-        pc_data.tx_buff[PC_DATA1_LEN_H] = 0x01;
-        pc_data.tx_buff[PC_DATA1_LEN_L] = 0x05;
-        pc_data.tx_buff[PC_DATA2_LEN_H] = 0x09;
+        pc_data.tx_buff[PC_DATA1_LEN_H] = 0x02;
+        pc_data.tx_buff[PC_DATA1_LEN_L] = 0x01;
+        pc_data.tx_buff[PC_DATA2_LEN_H] = 0x03;
 	
         pc_data.tx_buff[PC_DATA2_LEN_L] = 0x01;
         pc_data.tx_buff[PC_DATA3_LEN_H] = 0x00;
@@ -109,25 +109,21 @@ void pc_event_handle(void)
 	
         pc_data.tx_buff[PC_DATA4_LEN_H] = 0x00;
         pc_data.tx_buff[PC_DATA4_LEN_L] = 0x00;
-		
         pc_data.tx_buff[PC_DATA5_LEN_H] = 0x00;
         pc_data.tx_buff[PC_DATA5_LEN_L] = 0x00;
+        memset(pc_data.check_crc_buff, 0, PC_CRC_SIZE);
 		
-        memset(pc_data.check_crc_buff, 0, PC_CRC_BUFF_SIZE);
         convert_data(pc_data.tx_buff, pc_data.check_crc_buff, PC_CMD1, PC_DATA5_LEN_L);
-        crc_value = crc_block_calculate(pc_data.check_crc_buff, 4);
+        crc_value = crc_block_calculate(pc_data.check_crc_buff, PC_CRC_SIZE);
         crc_data_reset();
-		
         pc_data.tx_buff[PC_CRC32_1] = ((crc_value >> 24) & 0xff);
         pc_data.tx_buff[PC_CRC32_2] = ((crc_value >> 16) & 0xff);
         pc_data.tx_buff[PC_CRC32_3] = ((crc_value >> 8) & 0xff);
         pc_data.tx_buff[PC_CRC32_4] = (crc_value & 0xff);
         pc_data.tx_buff[PC_HEAD2] = PC_HEAD_2;
-		/* send data */
+        /* send data */
         usart_sendData(PC_USART, pc_data.tx_buff, PC_MAX_SEND_SIZE);
- 
         pc_event = PC_END_EVENT;
- 
         break;
 
     case IAP_EVENT:
@@ -138,6 +134,7 @@ void pc_event_handle(void)
     case PC_END_EVENT:
         break;
     }
+ 
 }
 
 

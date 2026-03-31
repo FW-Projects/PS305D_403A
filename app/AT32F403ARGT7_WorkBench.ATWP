@@ -56,6 +56,14 @@
             <ParametersSub name="Delay_Mode" value="Interrupt"/>
         </Parameters>
     </SYSTEM>
+    <TMR1>
+        <Mode>
+            <ModeSub name="Activated" value="TRUE"/>
+        </Mode>
+        <Parameters>
+            <ParametersSub name="Period" value="199"/>
+        </Parameters>
+    </TMR1>
     <TMR4>
         <Mode>
             <ModeSub name="Channel2 mode" value="Output_CH2"/>
@@ -80,12 +88,17 @@
         </Mode>
     </WDT>
     <NVIC>
+        <ShowType>1</ShowType>
         <SysTick_Handler>1;15;0;0;0</SysTick_Handler>
         <FLASH_IRQHandler>0;0;0;0;0</FLASH_IRQHandler>
         <CRM_IRQHandler>0;0;0;0;0</CRM_IRQHandler>
         <ADC1_2_IRQHandler>0;0;0;0;0</ADC1_2_IRQHandler>
+        <TMR1_BRK_TMR9_IRQHandler>0;0;0;0;0</TMR1_BRK_TMR9_IRQHandler>
+        <TMR1_OVF_TMR10_IRQHandler>1;1;0;0;0</TMR1_OVF_TMR10_IRQHandler>
+        <TMR1_TRG_HALL_TMR11_IRQHandler>0;0;0;0;0</TMR1_TRG_HALL_TMR11_IRQHandler>
+        <TMR1_CH_IRQHandler>0;0;0;0;0</TMR1_CH_IRQHandler>
         <TMR4_GLOBAL_IRQHandler>0;0;0;0;0</TMR4_GLOBAL_IRQHandler>
-        <USART1_IRQHandler>0;0;0;0;0</USART1_IRQHandler>
+        <USART1_IRQHandler>1;0;0;0;0</USART1_IRQHandler>
     </NVIC>
     <GPIO>
         <ShowType>1</ShowType>
@@ -171,7 +184,7 @@
             <Parameters name="Label" value="SW_KEY5"/>
         </Signal>
         <Signal SignalName="GPIO_Input" PinName="PC7">
-            <Parameters name="Label" value="OCPSENSE"/>
+            <Parameters name="GPIO_PullType_Set" value="GPIO_PULL_UP"/>
         </Signal>
         <Signal SignalName="GPIO_Output" PinName="PC8">
             <Parameters name="Label" value="SDA"/>

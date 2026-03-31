@@ -166,8 +166,6 @@ extern "C" {
 #define CONT_OCP_GPIO_PORT    GPIOB
 #define SW_KEY5_PIN    GPIO_PINS_6
 #define SW_KEY5_GPIO_PORT    GPIOC
-#define OCPSENSE_PIN    GPIO_PINS_7
-#define OCPSENSE_GPIO_PORT    GPIOC
 #define SDA_PIN    GPIO_PINS_8
 #define SDA_GPIO_PORT    GPIOC
 #define SCL_PIN    GPIO_PINS_9

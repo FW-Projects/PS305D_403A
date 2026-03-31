@@ -20,4 +20,5 @@
   ..\..\libraries\drivers\inc\at32f403a_407_wdt.h ..\inc\wk_system.h \
   ..\inc\iap.h ..\system\tmt.h ..\drive\at32_Usart.h \
   ..\app\PS305D_handle.h ..\inc\at32f403a_407_wk_config.h \
-  ..\app\ec11_handle.h ..\drive\EncoderEC11.h
+  ..\app\ec11_handle.h ..\drive\EncoderEC11.h ..\drive\adc_filter.h \
+  ..\app\work_handle.h ..\drive\key.h

@@ -18,4 +18,5 @@
   ..\..\libraries\drivers\inc\at32f403a_407_tmr.h \
   ..\..\libraries\drivers\inc\at32f403a_407_usart.h \
   ..\..\libraries\drivers\inc\at32f403a_407_wdt.h ..\inc\wk_dac.h \
-  ..\app\PID_handle.h ..\drive\round_data.h
+  ..\app\PID_handle.h ..\drive\round_data.h ..\app\output_handle.h \
+  ..\app\work_handle.h ..\drive\key.h

@@ -51,8 +51,8 @@ void wk_gpio_config(void)
 
   /* gpio input config */
   gpio_init_struct.gpio_mode = GPIO_MODE_INPUT;
-  gpio_init_struct.gpio_pins = LIMIN_8_4V_PIN | ONCE_OCP_PIN | SW_KEY5_PIN | MOD1_PIN | MOD2_PIN | 
-                               MOD4_PIN;
+  gpio_init_struct.gpio_pins = LIMIN_8_4V_PIN | ONCE_OCP_PIN | SW_KEY5_PIN | GPIO_PINS_7 | MOD1_PIN | 
+                               MOD2_PIN | MOD4_PIN;
   gpio_init_struct.gpio_pull = GPIO_PULL_UP;
   gpio_init(GPIOC, &gpio_init_struct);
 
@@ -66,11 +66,6 @@ void wk_gpio_config(void)
                                CONT_OCP_PIN;
   gpio_init_struct.gpio_pull = GPIO_PULL_UP;
   gpio_init(GPIOB, &gpio_init_struct);
-
-  gpio_init_struct.gpio_mode = GPIO_MODE_INPUT;
-  gpio_init_struct.gpio_pins = OCPSENSE_PIN;
-  gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
-  gpio_init(OCPSENSE_GPIO_PORT, &gpio_init_struct);
 
   gpio_init_struct.gpio_mode = GPIO_MODE_INPUT;
   gpio_init_struct.gpio_pins = LIMIN_5V_PIN;

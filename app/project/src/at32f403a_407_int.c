@@ -37,6 +37,8 @@
 #include "at32_Usart.h"
 #include "PS305D_handle.h"
 #include "ec11_handle.h"
+#include "adc_filter.h"
+#include "work_handle.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -50,7 +52,10 @@
 #define TIMES_300MS 300
 #define TIMES_500MS 500
 #define TIMES_1S    1000
-
+uint32_t us_tick = 0;        // 全局μs计时（供状态机用）
+uint32_t tmt_us_tick = 0;
+uint8_t ocp_exint_state = 0;
+#define TMT_BASE_TICK_US 100         // TMT基础tick（1000μs=1ms，可按需调整）
 /* add user code end private define */
 
 /* private macro -------------------------------------------------------------*/
@@ -60,12 +65,11 @@
 
 /* private variables ---------------------------------------------------------*/
 /* add user code begin private variables */
-
+void delay_tick_us(uint32_t us);
 /* add user code end private variables */
 
 /* private function prototypes --------------------------------------------*/
 /* add user code begin function prototypes */
-
 /* add user code end function prototypes */
 
 /* private user code ---------------------------------------------------------*/
@@ -234,12 +238,13 @@ void SysTick_Handler(void)
 			ps305d.General_parameters.vol_flicker_display_flag = !ps305d.General_parameters.vol_flicker_display_flag;
 			ps305d.General_parameters.cur_flicker_display_flag = !ps305d.General_parameters.cur_flicker_display_flag;
 			ps305d.General_parameters.ocp_flicker_display_flag = !ps305d.General_parameters.ocp_flicker_display_flag;
+			ps305d.General_parameters.led_error_flicker_display_flag = !ps305d.General_parameters.led_error_flicker_display_flag;
 		}
 	}
 	
 	
 	
-    tmt.tick();
+//    tmt.tick();
 	USART1_TimeOutCounter();
     /* add user code end SysTick_IRQ 0 */
 
@@ -249,6 +254,48 @@ void SysTick_Handler(void)
     /* add user code end SysTick_IRQ 1 */
 }
 
+/**
+  * @brief  this function handles TMR1 Overflow and TMR10 handler.
+  * @param  none
+  * @retval none
+  */
+void TMR1_OVF_TMR10_IRQHandler(void)
+{
+  /* add user code begin TMR1_OVF_TMR10_IRQ 0 */
+	if(tmr_interrupt_flag_get(TMR1, TMR_OVF_FLAG) != RESET)
+	{
+		tmr_flag_clear(TMR1, TMR_OVF_FLAG);
+		
+		// 1. 更新全局μs计时（供状态机用）
+        us_tick++;
+		
+		tmt_us_tick++;
+        if(tmt_us_tick >= TMT_BASE_TICK_US)
+        {
+            tmt.tick();       // 更新TMT任务计时（替代原SysTick）
+            tmt_us_tick = 0;  // 重置累计值
+        }
+	}
+  /* add user code end TMR1_OVF_TMR10_IRQ 0 */
+
+
+  /* add user code begin TMR1_OVF_TMR10_IRQ 1 */
+
+  /* add user code end TMR1_OVF_TMR10_IRQ 1 */
+}
+
+
+
 /* add user code begin 1 */
 
+/**
+ * @brief  微秒级延时函数（基于us_tick，可选）
+ */
+void delay_tick_us(uint32_t us)
+{
+	uint32_t start_tick = us_tick;
+    // 等待us_tick累计到目标值（无忙等，CPU可执行其他操作）
+    while((us_tick - start_tick) < us);
+	
+}
 /* add user code end 1 */

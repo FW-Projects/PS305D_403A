@@ -36,10 +36,14 @@
 #define FAN_CH4 999
 
 
-#define HIGH_ERROR_THRESHOLD 100 //1V
+#define HIGH_ERROR_THRESHOLD 50 //0.5V
 #define LOW_ERROR_THRESHOLD 100 //1V
 
+#define CURRENT_COMP_TIMES 150 // 1.5s
 
+#define VISION_BAI 1
+#define VISION_SHI 0
+#define VISION_GE  2
 typedef enum
 {
 	NO_AMMETER = 0,
@@ -191,6 +195,8 @@ typedef struct
 	bool i_pid_update_flag;
 	uint16_t pid_update_times;
 	
+	bool led_error_flicker_display_flag;
+	bool last_led_error_flicker_display_flag;
 	
 	int check_cur_times;
 } General_parameters_t;
@@ -233,6 +239,8 @@ typedef struct
 	Quick_charge_e Last_Quick_charge_mode;
 	
 	error_state_e error_state;
+	
+	bool check_vision_flag;
 	
 
 } PS305D_t;

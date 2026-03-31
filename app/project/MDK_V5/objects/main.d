@@ -31,4 +31,4 @@
   ..\drive\beep.h ..\app\output_handle.h ..\app\key_handle.h \
   ..\drive\key.h ..\app\work_handle.h ..\app\collect_data_handle.h \
   ..\drive\adc_filter.h ..\app\PID_handle.h ..\app\flash_handle.h \
-  ..\drive\flash.h
+  ..\drive\flash.h ..\inc\at32f403a_407_int.h

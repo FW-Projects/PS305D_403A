@@ -2,9 +2,33 @@
 #include "PS305D_handle.h"
 #include "perf_counter.h"
 #include "adc_filter.h"
+#include "at32f403a_407_conf.h"
+#include "output_handle.h"
+#include "collect_data_handle.h"
+#include "at32f403a_407_int.h"
+#include "at32f403a_407.h"            
 
-static int cont_ocp_protect_time = CONT_OCP_PROTECT_TIME_VAL; // 持续过流保护计时
+int cont_ocp_protect_time = CONT_OCP_PROTECT_TIME_VAL; // 持续过流保护计时
+bool dac_control_flag = false;
 
+
+typedef enum {
+    CV_STATE_IDLE = 0,    // 正常CV模式（初始状态）
+    CV_STATE_LATCH,       // 瞬时锁存关输出（20μs窗口期）
+    CV_STATE_SHORT,       // 短路锁定（200ms）
+    CV_STATE_SURGE        // 浪涌限流（20ms）
+} CV_StateTypeDef;
+ 
+
+static CV_StateTypeDef cv_state = CV_STATE_IDLE; // 状态机当前状态
+static uint32_t state_timer_us = 0;              // 状态计时（μs）
+static uint16_t state_timer_ms = 0; // 改用ms级计时（适配10ms观察期）
+#define LATCH_OFF_US       20      // 瞬时锁存时间（20μs，兼顾判定+兼容）
+#define SHORT_LOCK_US      2000000  // 短路锁定时间（200ms=200000μs）
+#define SURGE_HOLD_US      20000   // 浪涌限流时间（20ms=20000μs）
+#define SHORT_CURR_THRESH  (ps305d.system_parameters.set_current_data - 50) // 短路电流阈值
+#define OCPSENSE_DELAY_MS   5      // 观察时间（10ms，覆盖浪涌时长）
+#define SURGE_CURR_THRESH   2000    // 浪涌电流阈值（2A，根据你电源调整）
 /**
  * @brief 变压器档位控制（根据设置电压切换交流输入档位）
  */
@@ -15,7 +39,7 @@ void voltage_transformer_control(void);
  */
 void output_control(void);
 
-/**
+/**                                                                                                                                                                                                                                                                                                                                                                                
  * @brief 恒压模式处理逻辑
  */
 void CV_handle(void);
@@ -53,6 +77,8 @@ void Check_Ammeter(void);
  */
 error_state_e checkVoltageError(float actual_volt, float set_volt);
 
+
+
 void work_handle(void)
 {
 	 // 1. 交流档位控制（根据设置电压切换变压器输入）
@@ -68,15 +94,8 @@ void work_handle(void)
 	FAN_Control();
 	
 	// 5. 恒压/恒流/过流模式处理（仅输出开启时执行）
-	if(ps305d.output_state == OUTPUT)
-	{
-		CC_CV_OCP_handle();
-	}
-	else
-	{
-		// 无输出时默认切回恒压模式
-		ps305d.work_mode = CV;
-	}
+	CC_CV_OCP_handle();
+
 //	 // 6. 电压错误检测（实际电压vs设置电压）
 //	ps305d.error_state = checkVoltageError(ps305d.system_parameters.actual_voltage_data,
 //											ps305d.system_parameters.set_voltage_data);
@@ -95,27 +114,36 @@ void work_handle(void)
  */
 error_state_e checkVoltageError(float actual_volt,float set_volt)
 {
+	static uint8_t error_times = 0x00;
 	 // 电压差值 = 实际电压 - 设置电压
     float volt_diff = actual_volt - set_volt;
 	
     if (volt_diff > HIGH_ERROR_THRESHOLD) 
 	{
-		// 高压错误：实际电压超过设置电压阈值
-        return VOLTAGE_HIGH_ERROR;
-    }	
-	 
-	else if (volt_diff < -LOW_ERROR_THRESHOLD)
-	{
-        // 低压错误：实际电压低于设置电压阈值（仅输出开启时判定）
-		if(ps305d.output_state == OUTPUT)
+		error_times++;
+		if(error_times > 10)
 		{
-			return VOLTAGE_LOW_ERROR;
+			error_times = 0x00;
+		// 高压错误：实际电压超过设置电压阈值
+			return VOLTAGE_HIGH_ERROR;
 		}
 		else
 			return VOLTAGE_NORMAL;
-    } 
+    }	
+	 
+	// else if (volt_diff < -LOW_ERROR_THRESHOLD)
+	// {
+    //     // 低压错误：实际电压低于设置电压阈值（仅输出开启时判定）
+	// 	if(ps305d.output_state == OUTPUT)
+	// 	{
+	// 		return VOLTAGE_LOW_ERROR;
+	// 	}
+	// 	else
+	// 		return VOLTAGE_NORMAL;
+    // } 
 	else 
 	{
+		error_times = 0x00;
         // 电压在允许范围内 → 正常
         return VOLTAGE_NORMAL;
     }
@@ -231,7 +259,7 @@ void Check_Ammeter(void)
 		 // 模式2：检测输出状态（仅设置电流非零时执行）
 		else if(ps305d.check_ammeter_mode == CHECK_OUPUT && ps305d.system_parameters.set_current_data != 0x00)
 		{
-			// 实际电压为0：判定输出异常，累计计数
+			// 实际电压为0：判定输出A异常，累计计数
 			if(ps305d.system_parameters.actual_voltage_data <= 0x00)
 			{
 				check_vol_times++;
@@ -313,8 +341,8 @@ void CC_CV_OCP_handle(void)
 {
 	switch(ps305d.work_mode)
 	{
-		case CV:     // 恒压模式
-			CV_handle();
+		case CV: 
+//			CV_handle();
 			break;
 		case CC:     // 恒流模式
 			CC_handle();
@@ -336,21 +364,22 @@ void ocp_handle(void)
 {
 	ps305d.General_parameters.ocp_triggered_flag = true; // 标记过流已触发
 	
-	// 模式1：持续过流保护（自动恢复）
+	  // 模式1：持续过流保护（自动恢复）
 	if(ps305d.ocp_mode == CONT_OCP_MODE)
 	{
 		cont_ocp_protect_time--;
 	
 		OUTPUT_CLOSE; //断输出
-//		OUTPUT_LED_CLOSE;
-		 
+		OUTPUT_LED_CLOSE;
+		 ps305d.output_state = NO_OUTPUT;
 		// 计时结束：恢复输出并切回恒压模式
 		if(cont_ocp_protect_time <= 0)
 		{
 			ps305d.work_mode = CV;		
-			ps305d.last_output_state = NO_OUTPUT;
+			ps305d.last_output_state = NO_OUTPUT;  
 			ps305d.output_state = OUTPUT;
 			ps305d.General_parameters.ocp_triggered_flag = false;
+			cv_state = CV_STATE_IDLE;
 		}
 	}
 	// 模式2：单次过流保护（需手动复位）
@@ -372,41 +401,83 @@ void ocp_handle(void)
  * @note  - 有过流保护：切OCP模式
  * @note  - 无过流保护：切CC模式
  */
+
 void CV_handle(void)
 {
-	static uint8_t ocp_times = 0;
+    static uint8_t ocp_pin = 0;
+    static uint16_t current_data = 0x00;
 	
-	// GPIO7为低：检测到过流
-	if(gpio_input_data_bit_read(GPIOC,GPIO_PINS_7) == false)
-	{
-		ocp_times++;
-		if(ocp_times > OCP_TRIGGER_NUMBER_VAL)
-		{
-			ocp_times = 0x00;
-			if(ps305d.ocp_mode != NO_OCP_MODE)
-			{
-				// 有过流保护：切OCP模式
-				ps305d.work_mode = OCP;
-				if(ps305d.ocp_mode == CONT_OCP_MODE)
-				{
-					// 持续过流模式：重置保护计时
-					cont_ocp_protect_time = CONT_OCP_PROTECT_TIME_VAL;
-				}
-			}
-			 // 无过流保护：切CC模式
-			else
-			{
-				/* 进入恒流 */
-				ps305d.work_mode = CC;
-			}
-		}
-	}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-	else
-	{
-		// GPIO7为高：正常恒压状态
-		ocp_times = 0x00;
-		ps305d.work_mode = CV;
-	}
+    switch(cv_state)
+    {
+        // 状态1：正常CV模式（初始/恢复状态）
+        case CV_STATE_IDLE:
+			ocp_pin = gpio_input_data_bit_read(GPIOC,GPIO_PINS_7);
+            if(ocp_pin == false) // OCPSENSE触发过流
+            {
+                cv_state = CV_STATE_LATCH;
+                state_timer_us = us_tick;
+				ocp_exint_state = 0;
+            }
+            else
+            {
+                if(ps305d.General_parameters.ocp_triggered_flag == false)
+                    ps305d.work_mode = CV;
+            }
+            break;
+
+        // 状态2：瞬时锁存（20μs窗口期，等电流上升到位）
+        case CV_STATE_LATCH:
+            if((us_tick - state_timer_us) >= LATCH_OFF_US)
+            {
+                current_data = get_adcval(ADC_CHANNEL_6) * 1000 / 819;
+                if(current_data >= SHORT_CURR_THRESH)
+                {
+                    // 真短路：切换到OCP锁定状态，避免流转到浪涌
+					
+                    state_timer_us = us_tick;
+                   if(ps305d.ocp_mode != NO_OCP_MODE)
+					{
+						// 有过流保护：切OCP模式
+						ps305d.work_mode = OCP;
+						if(ps305d.ocp_mode == CONT_OCP_MODE)
+						{
+							// 持续过流模式：重置保护计时
+							cont_ocp_protect_time = CONT_OCP_PROTECT_TIME_VAL;
+						}
+					}
+					 // 无过流保护：切CC模式
+					else
+					{
+						/* 进入恒流 */
+						ps305d.work_mode = CC;
+ 					}
+                }
+                else
+                {
+                    // 浪涌：仅浪涌场景进入SURGE状态
+                    cv_state = CV_STATE_SURGE;
+                    state_timer_us = us_tick;
+                }
+            }
+            break;
+
+        // 状态4：浪涌限流（20ms，仅浪涌触发）
+        case CV_STATE_SURGE:
+            if((us_tick - state_timer_us) >= SURGE_HOLD_US)
+            {
+                cv_state = CV_STATE_IDLE;
+                ps305d.work_mode = CV;
+            }
+            break;
+
+        // 兜底：异常状态回归IDLE
+        default:
+            cv_state = CV_STATE_IDLE;
+            state_timer_us = us_tick;
+            ps305d.work_mode = CV;                       
+            ps305d.General_parameters.ocp_triggered_flag = false;
+            break;
+    }
 }
 
 
@@ -432,7 +503,7 @@ void CC_handle(void)
 	}
 	 // GPIO7为低：仍过流
 	else
-	{
+	{                                                                                                                                     
 		cv_times = 0;
 		if(ps305d.ocp_mode != NO_OCP_MODE)
 		{
@@ -455,26 +526,35 @@ void CC_handle(void)
 void output_control(void)
 {
 	// 仅输出状态变化时执行操作
-	if(ps305d.last_output_state != ps305d.output_state)
+	if(ps305d.error_state == VOLTAGE_HIGH_ERROR || ps305d.error_state == VOLTAGE_LOW_ERROR)
 	{
-		// 切换为有输出
-		if(ps305d.last_output_state == NO_OUTPUT && ps305d.output_state == OUTPUT)
+		// 电压错误时强制关闭输出
+		ps305d.output_state = NO_OUTPUT;
+	}
+	else
+	{
+		if(ps305d.last_output_state != ps305d.output_state)
 		{
-			// 变压器初始化完成后执行
-			if(ps305d.init_transformer_control == true)
+			// 切换为有输出
+			if(ps305d.last_output_state == NO_OUTPUT && ps305d.output_state == OUTPUT)
 			{
-				OUTPUT_LED_OPEN;
-				OUTPUT_OPEN;
-				ps305d.init_transformer_control = false;
-				ps305d.last_output_state = OUTPUT;
+				// 变压器初始化完成后执行
+				if(ps305d.init_transformer_control == true)
+				{
+					g_last_set_voltage_data = 0xffff;
+					OUTPUT_LED_OPEN;
+					OUTPUT_OPEN;
+					ps305d.init_transformer_control = false;
+					ps305d.last_output_state = OUTPUT;
+				}
 			}
-		}
-		 // 切换为无输出
-		else if(ps305d.last_output_state == OUTPUT && ps305d.output_state == NO_OUTPUT)
-		{
-			ps305d.last_output_state = NO_OUTPUT;
-			OUTPUT_LED_CLOSE;
-			OUTPUT_CLOSE;
+			// 切换为无输出
+			else if(ps305d.last_output_state == OUTPUT && ps305d.output_state == NO_OUTPUT)
+			{
+				ps305d.last_output_state = NO_OUTPUT;
+				OUTPUT_LED_CLOSE;
+				OUTPUT_CLOSE;
+			}
 		}
 	}
 }
@@ -491,6 +571,7 @@ void output_control(void)
  */
 void voltage_transformer_control(void)
 {
+	static uint8_t check_times = 0;      // 检测计数（防抖）
 	static uint16_t last_voltage = 0x00; // 上一次设置电压（防抖）
     static uint8_t first_in = false;     // 首次进入标记
 
