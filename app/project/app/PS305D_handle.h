@@ -21,14 +21,15 @@
 
 #define MAX_8400MV_VOLTAGE_DATA 840
 
+#define OFFSET_VOLTAGE 1
 
 #define SET_SHOW_TIMES 3000
-#define ACTUAL_SHOW_TIMES 250
 
-#define RESET_DATA 6000
+#define ACTUAL_SHOW_TIMES 200
+
+#define RESET_DATA 9999
 
 #define	RESET_VALUE 255
-
 
 #define FAN_CH1 250
 #define FAN_CH2 500
@@ -36,14 +37,18 @@
 #define FAN_CH4 999
 
 
+
 #define HIGH_ERROR_THRESHOLD 50 //0.5V
 #define LOW_ERROR_THRESHOLD 100 //1V
 
 #define CURRENT_COMP_TIMES 150 // 1.5s
 
-#define VISION_BAI 1
-#define VISION_SHI 0
-#define VISION_GE  2
+#define SoftwareVISION_BAI 1
+#define SoftwareVISION_SHI 0
+#define SoftwareVISION_GE  3
+#define HardwareVISION_BAI 4
+#define HardwareVISION_SHI 0
+#define HardwareVISION_GE  1
 typedef enum
 {
 	NO_AMMETER = 0,

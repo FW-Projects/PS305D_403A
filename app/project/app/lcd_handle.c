@@ -16,14 +16,15 @@ void Set_Voltage_display(uint16_t set_voltage_data);
 void Actual_Voltage_display(uint16_t act_voltage_data);
 void Set_Current_display(uint16_t set_current_data);
 void Actual_Current_display(uint16_t act_current_data);
-void usb_display_handle(float current_dat,float voltage_dat);
-void typec_display_handle(float current_data,float voltage_data);
+void usb_display_handle(float current_dat, float voltage_dat);
+void typec_display_handle(float current_data, float voltage_data);
 void voltage_display_handle(void);
 void current_display_handle(void);
 void led_display_handle(void);
 void data_display_state(void);
 void Quick_charge_display_handle(void);
-void Disp_Vision(void);
+void Disp_SoftwareVision(void);
+void Disp_HardwareVision(void);
 
 uint8_t get_digit(uint16_t num, uint8_t index)
 {
@@ -42,14 +43,16 @@ void lcd_handle(void)
 	{
 	case 0:
 		data_display_state();
-		current_display_handle();
-		
-		if(ps305d.check_vision_flag == true)
+
+		if (ps305d.check_vision_flag == true)
 		{
-			Disp_Vision();
+			Disp_SoftwareVision();
+
+			Disp_HardwareVision();
 		}
 		else
 		{
+			current_display_handle();
 			voltage_display_handle();
 		}
 		display_run++;
@@ -67,7 +70,7 @@ void lcd_handle(void)
 void data_display_state(void)
 {
 	static output_state_e last_output = 0;
-	if(last_output != ps305d.output_state)
+	if (last_output != ps305d.output_state)
 	{
 		last_output = ps305d.output_state;
 		ps305d.system_parameters.actual_display_times1 = 0x00;
@@ -76,15 +79,13 @@ void data_display_state(void)
 	}
 }
 
-
-
 void led_display_handle(void)
 {
 	static bool last_cur_limin_flag, last_vol_limin_flag, last_lock_state;
 	led_postion1_e led1_postion_state = CV_NOOCP;
 	led_postion2_e led2_postion_state = NOTHING;
 
-	if(ps305d.error_state == VOLTAGE_NORMAL)
+	if (ps305d.error_state == VOLTAGE_NORMAL)
 	{
 		if (ps305d.last_work_mode != ps305d.work_mode ||
 			ps305d.last_ocp_mode != ps305d.ocp_mode ||
@@ -119,8 +120,8 @@ void led_display_handle(void)
 			{
 				led1_postion_state = CC_NOOCP;
 			}
-//			if (ps305d.General_parameters.ocp_triggered_flag != true)
-			 	TM1680Write4bit(40, led1_postion_state);
+			//			if (ps305d.General_parameters.ocp_triggered_flag != true)
+			TM1680Write4bit(40, led1_postion_state);
 		}
 
 		if (last_cur_limin_flag != ps305d.General_parameters.current_limit_flag ||
@@ -159,20 +160,19 @@ void led_display_handle(void)
 	{
 
 		if (ps305d.General_parameters.led_error_flicker_display_flag == true ||
-				ps305d.General_parameters.last_led_error_flicker_display_flag == true)
-			{
-				ps305d.General_parameters.last_led_error_flicker_display_flag = false;
-				TM1680Write4bit(40, 0xff);
-				TM1680Write4bit(41, 0xff);
-			}
-			else if (ps305d.General_parameters.vol_flicker_display_flag == false &&
-					 ps305d.General_parameters.last_led_error_flicker_display_flag == false)
-			{
-				ps305d.General_parameters.last_led_error_flicker_display_flag = true;
-				TM1680Write4bit(40, 0x00);
-				TM1680Write4bit(41, 0x00);
-			}
-		
+			ps305d.General_parameters.last_led_error_flicker_display_flag == true)
+		{
+			ps305d.General_parameters.last_led_error_flicker_display_flag = false;
+			TM1680Write4bit(40, 0xff);
+			TM1680Write4bit(41, 0xff);
+		}
+		else if (ps305d.General_parameters.vol_flicker_display_flag == false &&
+				 ps305d.General_parameters.last_led_error_flicker_display_flag == false)
+		{
+			ps305d.General_parameters.last_led_error_flicker_display_flag = true;
+			TM1680Write4bit(40, 0x00);
+			TM1680Write4bit(41, 0x00);
+		}
 	}
 }
 
@@ -203,24 +203,25 @@ void current_display_handle(void)
 			if (actual_display_times <= 0)
 			{
 				actual_display_times = ACTUAL_SHOW_TIMES;
-//				if (ps305d.system_parameters.last_actual_current_data != ps305d.system_parameters.actual_current_data)
-//				{
-//					ps305d.system_parameters.last_actual_current_data = ps305d.system_parameters.actual_current_data;
-					if (ps305d.output_state == OUTPUT)
-						Actual_Current_display(ps305d.system_parameters.actual_current_data);
-					else
-						Actual_Current_display(0);
-//				}
+				//				if (ps305d.system_parameters.last_actual_current_data != ps305d.system_parameters.actual_current_data)
+				//				{
+				//					ps305d.system_parameters.last_actual_current_data = ps305d.system_parameters.actual_current_data;
+				if (ps305d.output_state == OUTPUT)
+					Actual_Current_display(ps305d.system_parameters.actual_current_data);
+				else
+					Actual_Current_display(0);
+				//				}
 			}
 		}
 		else if (ps305d.work_mode == CC)
 		{
 			actual_display_times = 0;
-			if (ps305d.system_parameters.last_set_current_data != ps305d.system_parameters.set_current_data)
-			{
-				//ps305d.system_parameters.last_set_current_data = ps305d.system_parameters.set_current_data;y
-				Set_Current_display(ps305d.system_parameters.set_current_data);
-			}		
+			//			if (ps305d.system_parameters.last_set_current_data != ps305d.system_parameters.set_current_data)
+			//			{
+			//				//ps305d.system_parameters.last_set_current_data = ps305d.system_parameters.set_current_data;y
+			////				Set_Current_display(ps305d.system_parameters.set_current_data);
+			//			}
+			Set_Current_display(ps305d.system_parameters.set_current_data);
 		}
 	}
 }
@@ -294,110 +295,112 @@ void voltage_display_handle(void)
 
 void Check_QC_PD(void)
 {
-	
+
 	static uint8_t just_usb_number = 0x00;
 	static uint8_t just_typec_number = 0x00;
 	static uint8_t both_number = 0x00;
-		
-	if(ps305d.system_parameters.typec_voltage_data < 300 && ps305d.system_parameters.usb_voltage_data != 0x00)
+
+	if (ps305d.system_parameters.typec_voltage_data < 300 && ps305d.system_parameters.usb_voltage_data != 0x00)
 	{
 		/* just usb */
 		just_usb_number++;
 		just_typec_number = 0x00;
 		both_number = 0x00;
-		if(just_usb_number > 5)
+		if (just_usb_number > 5)
 		{
 			ps305d.Quick_charge_mode = JUST_USB;
 			just_usb_number = 0x00;
 		}
 	}
-	else if(ps305d.system_parameters.typec_voltage_data != 0x00 && ps305d.system_parameters.usb_voltage_data < 500)
+	else if (ps305d.system_parameters.typec_voltage_data != 0x00 && ps305d.system_parameters.usb_voltage_data < 500)
 	{
 		/* just typec */
 		just_typec_number++;
 		just_usb_number = 0x00;
 		both_number = 0x00;
-		if(just_typec_number > 5)
+		if (just_typec_number > 5)
 		{
 			just_typec_number = 0x00;
 			ps305d.Quick_charge_mode = JUST_TYPEC;
 		}
 	}
-	
-	else if(ps305d.system_parameters.typec_voltage_data >= 400 && ps305d.system_parameters.usb_voltage_data >= 400)
+
+	else if (ps305d.system_parameters.typec_voltage_data >= 400 && ps305d.system_parameters.usb_voltage_data >= 400)
 	{
 		/* usb & typec */
 		both_number++;
 		just_usb_number = 0x00;
 		just_typec_number = 0x00;
-		if(both_number > 5)
+		if (both_number > 5)
 		{
 			both_number = 0x00;
 			ps305d.Quick_charge_mode = BOTH_USE;
 		}
 	}
-	
 }
 
 void Quick_charge_display_handle(void)
 {
 	static char quick_charge_runtime = 0x01;
-	static float typec_disp_crt = 0x00,typec_disp_vlt = 0x00;
-	static float usb_disp_crt = 0x00,usb_disp_vlt = 0x00;
-	
-	
+	static float typec_disp_crt = 0x00, typec_disp_vlt = 0x00;
+	static float usb_disp_crt = 0x00, usb_disp_vlt = 0x00;
+
 	quick_charge_runtime--;
-	
-	if(quick_charge_runtime <= 0x00)
+
+	if (quick_charge_runtime <= 0x00)
 	{
 		quick_charge_runtime = 100;
-		
-		Check_QC_PD();
-	
-		if(ps305d.Quick_charge_mode == JUST_USB)
-		{
-			typec_disp_crt = 0x00;
-			typec_disp_vlt = 500;
-			usb_disp_crt = ps305d.system_parameters.usb_current_data;
-			usb_disp_vlt = ps305d.system_parameters.usb_voltage_data;
-			
-		}
-		else if(ps305d.Quick_charge_mode == JUST_TYPEC)
-		{
-			typec_disp_crt = ps305d.system_parameters.typec_current_data;
-			typec_disp_vlt = ps305d.system_parameters.typec_voltage_data;
+
+		//		Check_QC_PD();
+		//
+		//		if(ps305d.Quick_charge_mode == JUST_USB)
+		//		{
+		//			typec_disp_crt = 0x00;
+		//			typec_disp_vlt = 500;
+		//			usb_disp_crt = ps305d.system_parameters.usb_current_data - 1;
+		//			usb_disp_vlt = ps305d.system_parameters.usb_voltage_data;
+		//
+		//		}
+		//		else if(ps305d.Quick_charge_mode == JUST_TYPEC)
+		//		{
+		//			typec_disp_crt = ps305d.system_parameters.typec_current_data;
+		//			typec_disp_vlt = ps305d.system_parameters.typec_voltage_data;
+		//			usb_disp_crt = 0x00;
+		//			usb_disp_vlt = 500;
+		//		}
+		//		else
+		//		{
+		//			typec_disp_vlt = ps305d.system_parameters.typec_voltage_data;
+		//			usb_disp_vlt = ps305d.system_parameters.usb_voltage_data;
+		//
+		//			typec_disp_crt = ps305d.system_parameters.typec_current_data;
+		////			usb_disp_crt = ps305d.system_parameters.usb_current_data - ps305d.system_parameters.typec_current_data - 1;
+		//			usb_disp_crt = ps305d.system_parameters.usb_current_data;
+		//		}
+
+		typec_disp_vlt = ps305d.system_parameters.typec_voltage_data;
+		usb_disp_vlt = ps305d.system_parameters.usb_voltage_data;
+		typec_disp_crt = ps305d.system_parameters.typec_current_data;
+		usb_disp_crt = ps305d.system_parameters.usb_current_data;
+
+		if (usb_disp_crt < 0x00)
 			usb_disp_crt = 0x00;
-			usb_disp_vlt = 500;
-		}
-		else
-		{
-			typec_disp_vlt = ps305d.system_parameters.typec_voltage_data;
-			usb_disp_vlt = ps305d.system_parameters.usb_voltage_data;
-			
-			typec_disp_crt = ps305d.system_parameters.typec_current_data;
-			usb_disp_crt = ps305d.system_parameters.usb_current_data - ps305d.system_parameters.typec_current_data;
-			
-			
-		}
-		if(usb_disp_crt < 0x00)
-			usb_disp_crt = 0x00;
-		if(usb_disp_vlt < 0x00)
+		if (usb_disp_vlt < 0x00)
 			usb_disp_vlt = 0x00;
-		if(typec_disp_crt < 0x00)
+		if (typec_disp_crt < 0x00)
 			typec_disp_crt = 0x00;
-		if(typec_disp_vlt < 0x00)
-			typec_disp_vlt = 0x00;  
-		
-		usb_display_handle(usb_disp_crt,usb_disp_vlt);
-		typec_display_handle(typec_disp_crt,typec_disp_vlt); 
+		if (typec_disp_vlt < 0x00)
+			typec_disp_vlt = 0x00;
+
+		usb_display_handle(usb_disp_crt, usb_disp_vlt);
+		typec_display_handle(typec_disp_crt, typec_disp_vlt);
 	}
-	
 }
 
-void typec_display_handle(float current_data,float voltage_data)
+void typec_display_handle(float current_data, float voltage_data)
 {
-	static float last_current_data = 0xffff,last_voltage_data = 0xffff;
-	
+	static float last_current_data = 0xffff, last_voltage_data = 0xffff;
+
 	if (last_current_data != current_data)
 	{
 		last_current_data = current_data;
@@ -411,10 +414,10 @@ void typec_display_handle(float current_data,float voltage_data)
 	}
 }
 
-void usb_display_handle(float current_dat,float voltage_dat)
+void usb_display_handle(float current_dat, float voltage_dat)
 {
-	static float last_current_dat = 0xffff,last_voltage_dat = 0xffff;
-	
+	static float last_current_dat = 0xffff, last_voltage_dat = 0xffff;
+
 	if (last_current_dat != current_dat)
 	{
 		last_current_dat = current_dat;
@@ -543,14 +546,21 @@ void Set_Voltage_display(uint16_t set_voltage_data)
 	}
 }
 
-void Disp_Vision(void)
+void Disp_SoftwareVision(void)
 {
-	Disp_one_person(0, LCDSEG_G);
-	Disp_one_person(2, VISION_BAI);
-	Disp_one_person(4, VISION_SHI);
-	Disp_one_person(6, VISION_GE);
-	
+	Disp_one_person(0, table[5] | 0x02); // S
+	Disp_one_person(2, table[SoftwareVISION_BAI] | 0x02);
+	Disp_one_person(4, table[SoftwareVISION_SHI] | 0x02);
+	Disp_one_person(6, table[SoftwareVISION_GE]);
 }
+void Disp_HardwareVision(void)
+{
+	Disp_one_person(8, table[16] | 0x02); // H
+	Disp_one_person(10, table[HardwareVISION_BAI] | 0x02);
+	Disp_one_person(12, table[HardwareVISION_SHI] | 0x02);
+	Disp_one_person(14, table[HardwareVISION_GE]);
+}
+
 void Actual_Voltage_display(uint16_t act_voltage_data)
 {
 	uint8_t t, temp;
@@ -697,12 +707,12 @@ void Actual_Current_display(uint16_t act_current_data)
 
 void Actual_Typec_Current_display(uint16_t typec_current_data)
 {
-	uint8_t bai = 0,shi = 0,ge = 0;
-	
+	uint8_t bai = 0, shi = 0, ge = 0;
+
 	bai = typec_current_data / 100;
 	shi = typec_current_data % 100 / 10;
 	ge = typec_current_data % 10;
-	
+
 	Disp_one_person(34, table[bai] | 0x02);
 	Disp_one_person(36, table[shi]);
 	Disp_one_person(38, table[ge]);
@@ -734,16 +744,15 @@ void Actual_Typec_Voltage_display(uint16_t typec_voltage_data)
 
 void Actual_Usb_Current_display(uint16_t usb_current_data)
 {
-	uint8_t bai = 0,shi = 0,ge = 0;
-	
+	uint8_t bai = 0, shi = 0, ge = 0;
+
 	bai = usb_current_data / 100;
 	shi = usb_current_data % 100 / 10;
 	ge = usb_current_data % 10;
-	
+
 	Disp_one_person(22, table[bai] | 0x02);
 	Disp_one_person(24, table[shi]);
 	Disp_one_person(26, table[ge]);
-	
 }
 
 void Actual_Usb_Voltage_display(uint16_t usb_voltage_data)

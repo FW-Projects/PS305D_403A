@@ -3,7 +3,13 @@
 #include "adc_filter.h"
 #include "round_data.h"
 #include "collect_data_handle.h"
-#define COLLECT_DATA_TIMES 50
+#define COLLECT_DATA_TIMES 100
+
+#define LOOKUP_TABLE_SIZE 11 // 0~20 共21个点
+
+// 表值 = 真实电流值（单位：mA）
+const uint16_t current_lookup_table[LOOKUP_TABLE_SIZE] = {
+	0, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
 void collect_typec_usb_data(void);
 uint16_t collect_voltage(void);
@@ -19,8 +25,7 @@ void collect_data_handle(void)
 	collect_typec_usb_data();
 }
 
-
-uint16_t collect_voltage(void)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+uint16_t collect_voltage(void)
 {
 	float adc_data = 0;
 	uint16_t output_data = 0;
@@ -28,30 +33,45 @@ uint16_t collect_voltage(void)
 	adc_data = (move_average_filter(&ADC_VTG) / 1.365);
 
 	// 四舍五入
-	output_data = ROUND_TO_INT(adc_data); 
+	output_data = ROUND_TO_INT(adc_data);
 	if (output_data > 3000)
 		output_data = 3000;
-	if(output_data <= 0)
+	if (output_data <= 0)
 		output_data = 0;
 	return output_data;
 }
+// 返回：电流值，单位 mA，0~6000
 uint16_t collect_current(void)
 {
-	float adc_dat = 0;
-	uint16_t out_data = 0;
+	uint32_t sum = 0;
 
-	adc_dat = (move_average_filter(&ADC_CRT) / 0.819) - OFFSET_VOLTAGE;
-	
-	if(adc_dat <= 0)
-		adc_dat = 0;
-	if (adc_dat > 5000)
-		adc_dat = 5000;
-	// 四舍五入
-	out_data = ROUND_TO_INT(adc_dat) ;
+	for (uint8_t i = 0; i < OVER_SAMPLE_TIMES; i++)
+	{
+		sum += (adc_dma_buf[i]);
+	}
 
-	return out_data;
+	uint32_t adc_13bit = sum >> OVERSAMPLE_RIGHT_SHIFT;
+
+	uint32_t adc_filt = moving_average(&ADC_CRT, adc_13bit);
+
+	uint32_t current;
+
+//	current = (adc_filt * 6000) / 8191;
+	current = (adc_filt * 5000) / 8191;
+
+	if (current > 1)
+	{
+		current += 2;
+	}
+	else
+		current = 0;
+	// 安全限幅
+	if (current > MAX_CURRENT_MA)
+		current = MAX_CURRENT_MA;
+
+	return current;
 }
-                                
+
 void collect_typec_usb_data(void)
 {
 	static int collect_data_times = 0x00;
@@ -62,7 +82,7 @@ void collect_typec_usb_data(void)
 	{
 		collect_data_times = COLLECT_DATA_TIMES;
 
-		t_v = get_adcval_average(ADC_TYPEC_VTG, 10);
+		t_v = get_adcval_average(ADC_TYPEC_VTG, 10) / 3.148;
 		ps305d.system_parameters.typec_voltage_data = ROUND_TO_INT(t_v);
 
 		t_a = move_average_filter(&ADC_TYPEC_CRT) - 7;
@@ -71,7 +91,7 @@ void collect_typec_usb_data(void)
 		u_a = move_average_filter(&ADC_USB_CRT) - 1;
 		ps305d.system_parameters.usb_current_data = ROUND_TO_INT(u_a);
 
-		u_v = get_adcval_average(ADC_USBA_VTG, 10) * 0.955;
+		u_v = get_adcval_average(ADC_USBA_VTG, 10) / 3.148;
 		ps305d.system_parameters.usb_voltage_data = ROUND_TO_INT(u_v);
 	}
 }
