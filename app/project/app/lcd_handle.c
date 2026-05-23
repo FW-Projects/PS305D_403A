@@ -548,14 +548,14 @@ void Set_Voltage_display(uint16_t set_voltage_data)
 
 void Disp_SoftwareVision(void)
 {
-	Disp_one_person(0, table[5] | 0x02); // S
+	Disp_one_person(0, 0x00);
 	Disp_one_person(2, table[SoftwareVISION_BAI] | 0x02);
 	Disp_one_person(4, table[SoftwareVISION_SHI] | 0x02);
 	Disp_one_person(6, table[SoftwareVISION_GE]);
 }
 void Disp_HardwareVision(void)
 {
-	Disp_one_person(8, table[16] | 0x02); // H
+	Disp_one_person(8, 0x00); 
 	Disp_one_person(10, table[HardwareVISION_BAI] | 0x02);
 	Disp_one_person(12, table[HardwareVISION_SHI] | 0x02);
 	Disp_one_person(14, table[HardwareVISION_GE]);

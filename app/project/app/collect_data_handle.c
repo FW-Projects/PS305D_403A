@@ -82,7 +82,8 @@ void collect_typec_usb_data(void)
 	{
 		collect_data_times = COLLECT_DATA_TIMES;
 
-		t_v = get_adcval_average(ADC_TYPEC_VTG, 10) / 3.148;
+//		t_v = get_adcval_average(ADC_TYPEC_VTG, 10) / 3.148;
+		t_v = get_adcval_average(ADC_TYPEC_VTG, 10) / 3.263;
 		ps305d.system_parameters.typec_voltage_data = ROUND_TO_INT(t_v);
 
 		t_a = move_average_filter(&ADC_TYPEC_CRT) - 7;
@@ -91,7 +92,8 @@ void collect_typec_usb_data(void)
 		u_a = move_average_filter(&ADC_USB_CRT) - 1;
 		ps305d.system_parameters.usb_current_data = ROUND_TO_INT(u_a);
 
-		u_v = get_adcval_average(ADC_USBA_VTG, 10) / 3.148;
+//		u_v = get_adcval_average(ADC_USBA_VTG, 10) / 3.148;
+		u_v = get_adcval_average(ADC_USBA_VTG, 10) / 3.263;
 		ps305d.system_parameters.usb_voltage_data = ROUND_TO_INT(u_v);
 	}
 }
