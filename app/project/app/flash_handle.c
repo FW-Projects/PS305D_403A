@@ -296,17 +296,17 @@ static void get_reset_data(void)
 {
 	ps305d.system_parameters.set_voltage_data      = 500;
     ps305d.system_parameters.set_current_data      = 1000;
-    ps305d.system_parameters.mod1_set_voltage_data = 400;
-    ps305d.system_parameters.mod1_set_current_data = 1000;
+    ps305d.system_parameters.mod1_set_voltage_data = 450;
+    ps305d.system_parameters.mod1_set_current_data = 5000;
 	ps305d.mod1_ocp_mode                           = CONT_OCP_MODE;
-    ps305d.system_parameters.mod2_set_voltage_data = 600;
-    ps305d.system_parameters.mod2_set_current_data = 1500;
+    ps305d.system_parameters.mod2_set_voltage_data = 450;
+    ps305d.system_parameters.mod2_set_current_data = 5000;
     ps305d.mod2_ocp_mode                           = CONT_OCP_MODE;
-    ps305d.system_parameters.mod3_set_voltage_data = 800;
-    ps305d.system_parameters.mod3_set_current_data = 2000;
+    ps305d.system_parameters.mod3_set_voltage_data = 450;
+    ps305d.system_parameters.mod3_set_current_data = 5000;
     ps305d.mod3_ocp_mode                           = CONT_OCP_MODE;
-    ps305d.system_parameters.mod4_set_voltage_data = 1000;
-    ps305d.system_parameters.mod4_set_current_data = 2500;
+    ps305d.system_parameters.mod4_set_voltage_data = 450;
+    ps305d.system_parameters.mod4_set_current_data = 5000;
     ps305d.mod4_ocp_mode                           = CONT_OCP_MODE;
     ps305d.ocp_mode                                = NO_OCP_MODE;
     ps305d.General_parameters.voltage_limit_flag   = false;
@@ -348,12 +348,12 @@ static void check_data_all(void)
 	
 	if (ps305d.system_parameters.mod1_set_voltage_data > MAX_VOLTAGE_DATA || ps305d.system_parameters.mod1_set_voltage_data < MIN_VOLTAGE_DATA)
     {
-        ps305d.system_parameters.mod1_set_voltage_data = 400;
+        ps305d.system_parameters.mod1_set_voltage_data = 450;
     }
 
     if (ps305d.system_parameters.mod1_set_current_data > MAX_CURRENT_DATA || ps305d.system_parameters.mod1_set_current_data < MIN_CURRENT_DATA)
     {
-        ps305d.system_parameters.mod1_set_current_data = 1000;
+        ps305d.system_parameters.mod1_set_current_data = 5000;
     }
 	
 	if(ps305d.mod1_ocp_mode != NO_OCP_MODE && ps305d.mod1_ocp_mode != CONT_OCP_MODE && ps305d.mod1_ocp_mode != ONCE_OCP_MODE)
@@ -363,12 +363,12 @@ static void check_data_all(void)
 	
 	if (ps305d.system_parameters.mod2_set_voltage_data > MAX_VOLTAGE_DATA || ps305d.system_parameters.mod2_set_voltage_data < MIN_VOLTAGE_DATA)
     {
-        ps305d.system_parameters.mod2_set_voltage_data = 400;
+        ps305d.system_parameters.mod2_set_voltage_data = 450;
     }
 
     if (ps305d.system_parameters.mod2_set_current_data > MAX_CURRENT_DATA || ps305d.system_parameters.mod2_set_current_data < MIN_CURRENT_DATA)
     {
-        ps305d.system_parameters.mod2_set_current_data = 1000;
+        ps305d.system_parameters.mod2_set_current_data = 5000;
     }
 	
 	if(ps305d.mod2_ocp_mode != NO_OCP_MODE && ps305d.mod2_ocp_mode != CONT_OCP_MODE && ps305d.mod2_ocp_mode != ONCE_OCP_MODE)
@@ -378,12 +378,12 @@ static void check_data_all(void)
 	
 	if (ps305d.system_parameters.mod3_set_voltage_data > MAX_VOLTAGE_DATA || ps305d.system_parameters.mod3_set_voltage_data < MIN_VOLTAGE_DATA)
     {
-        ps305d.system_parameters.mod3_set_voltage_data = 400;
+        ps305d.system_parameters.mod3_set_voltage_data = 450;
     }
 
     if (ps305d.system_parameters.mod3_set_current_data > MAX_CURRENT_DATA || ps305d.system_parameters.mod3_set_current_data < MIN_CURRENT_DATA)
     {
-        ps305d.system_parameters.mod3_set_current_data = 1000;
+        ps305d.system_parameters.mod3_set_current_data = 5000;
     }
 	
 	if(ps305d.mod3_ocp_mode != NO_OCP_MODE && ps305d.mod3_ocp_mode != CONT_OCP_MODE && ps305d.mod3_ocp_mode != ONCE_OCP_MODE)
@@ -393,12 +393,12 @@ static void check_data_all(void)
 	
 	if (ps305d.system_parameters.mod4_set_voltage_data > MAX_VOLTAGE_DATA || ps305d.system_parameters.mod4_set_voltage_data < MIN_VOLTAGE_DATA)
     {
-        ps305d.system_parameters.mod4_set_voltage_data = 400;
+        ps305d.system_parameters.mod4_set_voltage_data = 450;
     }
 
     if (ps305d.system_parameters.mod4_set_current_data > MAX_CURRENT_DATA || ps305d.system_parameters.mod4_set_current_data < MIN_CURRENT_DATA)
     {
-        ps305d.system_parameters.mod4_set_current_data = 1000;
+        ps305d.system_parameters.mod4_set_current_data = 5000;
     }
 	
 	if(ps305d.mod4_ocp_mode != NO_OCP_MODE && ps305d.mod4_ocp_mode != CONT_OCP_MODE && ps305d.mod4_ocp_mode != ONCE_OCP_MODE)

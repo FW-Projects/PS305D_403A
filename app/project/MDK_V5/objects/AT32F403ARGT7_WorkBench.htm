@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\objects\AT32F403ARGT7_WorkBench.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\objects\AT32F403ARGT7_WorkBench.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6230001: Last Updated: Sat May 23 15:38:51 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6230001: Last Updated: Sat May 23 17:43:23 2026
 <BR><P>
 <H3>Maximum Stack Usage =        240 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -617,10 +617,10 @@ Global Symbols
 <P><STRONG><a name="[94]"></a>ACK</STRONG> (Thumb, 184 bytes, Stack size 24 bytes, tm1680.o(.text.ACK))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = ACK &rArr; delay_us &rArr; get_system_ticks &rArr; check_systick
 </UL>
-<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_set
+<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_set
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_input_data_bit_read
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_reset
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680WriteByte
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tm1680SendByte
@@ -716,8 +716,8 @@ Global Symbols
 <P><STRONG><a name="[a6]"></a>CV_handle</STRONG> (Thumb, 466 bytes, Stack size 16 bytes, work_handle.o(.text.CV_handle))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = CV_handle &rArr; get_average
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_input_data_bit_read
+<BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_input_data_bit_read
+<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average
 </UL>
 <BR>[Called By]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_ocp_task
 </UL>
@@ -725,10 +725,10 @@ Global Symbols
 <P><STRONG><a name="[a8]"></a>Check_Ammeter</STRONG> (Thumb, 722 bytes, Stack size 32 bytes, work_handle.o(.text.Check_Ammeter))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = Check_Ammeter &rArr; delay_ms &rArr; get_system_ticks &rArr; check_systick
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_set
+<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_set
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_input_data_bit_read
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_reset
+<LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
 <BR>[Called By]<UL><LI><a href="#[194]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;work_handle
 </UL>
@@ -846,8 +846,8 @@ Global Symbols
 <P><STRONG><a name="[c5]"></a>FAN_Control</STRONG> (Thumb, 248 bytes, Stack size 8 bytes, work_handle.o(.text.FAN_Control))
 <BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = FAN_Control &rArr; get_adcval_average &rArr; get_adcval &rArr; adc_ordinary_channel_set
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_adcval_average
-<LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_channel_value_set
+<BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_channel_value_set
+<LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_adcval_average
 </UL>
 <BR>[Called By]<UL><LI><a href="#[194]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;work_handle
 </UL>
@@ -985,12 +985,12 @@ Global Symbols
 <P><STRONG><a name="[3c]"></a>USART1_IRQHandler</STRONG> (Thumb, 194 bytes, Stack size 16 bytes, at32_usart.o(.text.USART1_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = USART1_IRQHandler &rArr; queue_read &rArr; queue_isEmpty
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_read
-<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_write
-<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_flag_clear
+<BR>[Calls]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_flag_clear
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_flag_get
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_data_receive
 <LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_data_transmit
+<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_read
+<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_write
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
 </UL>
@@ -1082,9 +1082,9 @@ Global Symbols
 <P><STRONG><a name="[119]"></a>adc_ordinary_channel_set</STRONG> (Thumb, 354 bytes, Stack size 12 bytes, at32f403a_407_adc.o(.text.adc_ordinary_channel_set))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = adc_ordinary_channel_set
 </UL>
-<BR>[Called By]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_adcval
-<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wk_adc1_init
+<BR>[Called By]<UL><LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wk_adc1_init
 <LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wk_adc2_init
+<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_adcval
 </UL>
 
 <P><STRONG><a name="[11c]"></a>adc_ordinary_conversion_data_get</STRONG> (Thumb, 14 bytes, Stack size 4 bytes, at32f403a_407_adc.o(.text.adc_ordinary_conversion_data_get))
@@ -1110,8 +1110,8 @@ Global Symbols
 <P><STRONG><a name="[11a]"></a>adc_ordinary_software_trigger_enable</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, at32f403a_407_adc.o(.text.adc_ordinary_software_trigger_enable))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = adc_ordinary_software_trigger_enable
 </UL>
-<BR>[Called By]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_adcval
-<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wk_adc1_init
+<BR>[Called By]<UL><LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wk_adc1_init
+<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_adcval
 </UL>
 
 <P><STRONG><a name="[e9]"></a>beep_handle</STRONG> (Thumb, 270 bytes, Stack size 8 bytes, beep_handle.o(.text.beep_handle))
@@ -1211,9 +1211,9 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[d3]"></a>crc_data_reset</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, at32f403a_407_crc.o(.text.crc_data_reset))
-<BR><BR>[Called By]<UL><LI><a href="#[14d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_event_handle
+<BR><BR>[Called By]<UL><LI><a href="#[13d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wk_crc_init
+<LI><a href="#[14d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_event_handle
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RecvDataFromPC
-<LI><a href="#[13d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wk_crc_init
 </UL>
 
 <P><STRONG><a name="[165]"></a>crc_init_data_set</STRONG> (Thumb, 20 bytes, Stack size 4 bytes, at32f403a_407_crc.o(.text.crc_init_data_set))
@@ -1387,22 +1387,22 @@ Global Symbols
 <P><STRONG><a name="[fe]"></a>dac_output_buffer_enable</STRONG> (Thumb, 112 bytes, Stack size 8 bytes, at32f403a_407_dac.o(.text.dac_output_buffer_enable))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dac_output_buffer_enable
 </UL>
-<BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dac_buffer_auto_switch
-<LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wk_dac_init
+<BR>[Called By]<UL><LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wk_dac_init
+<LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dac_buffer_auto_switch
 </UL>
 
 <P><STRONG><a name="[cb]"></a>dac_output_control</STRONG> (Thumb, 680 bytes, Stack size 40 bytes, output_handle.o(.text.dac_output_control))
 <BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = dac_output_control &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<BR>[Calls]<UL><LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dac_2_data_set
+<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dac_1_data_set
+<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dac_buffer_auto_switch
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2iz
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
-<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dac_2_data_set
-<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dac_1_data_set
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Power_Output_Control_Loop
 </UL>
@@ -1422,8 +1422,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_system_ticks
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_Ammeter
-<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680Init
+<BR>[Called By]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680Init
+<LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_Ammeter
 </UL>
 
 <P><STRONG><a name="[96]"></a>delay_us</STRONG> (Thumb, 148 bytes, Stack size 32 bytes, perf_counter.o(.text.delay_us))
@@ -1540,16 +1540,16 @@ Global Symbols
 <P><STRONG><a name="[10e]"></a>flash_handle</STRONG> (Thumb, 2696 bytes, Stack size 48 bytes, flash_handle.o(.text.flash_handle))
 <BR><BR>[Stack]<UL><LI>Max Depth = 108<LI>Call Chain = flash_handle &rArr; flash_halfword_program &rArr; flash_spim_operation_wait_for &rArr; flash_spim_operation_status_get
 </UL>
-<BR>[Calls]<UL><LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_read_halfword
+<BR>[Calls]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_halfword_program
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_lock
+<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_sector_erase
+<LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_unlock
+<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_read_halfword
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_data_all
 <LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_reset_data
 <LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_data_from_b
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_data_from_a
 <LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data_check_len
-<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_halfword_program
-<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_lock
-<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_sector_erase
-<LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_unlock
 </UL>
 <BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_task
 </UL>
@@ -1563,10 +1563,10 @@ Global Symbols
 <P><STRONG><a name="[102]"></a>flash_read_halfword</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, flash.o(.text.flash_read_halfword))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = flash_read_halfword
 </UL>
-<BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_data_from_b
+<BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_handle
+<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_data_from_b
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_data_from_a
 <LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data_check_len
-<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_handle
 </UL>
 
 <P><STRONG><a name="[114]"></a>flash_sector_erase</STRONG> (Thumb, 274 bytes, Stack size 32 bytes, at32f403a_407_flash.o(.text.flash_sector_erase))
@@ -1682,7 +1682,8 @@ Global Symbols
 <P><STRONG><a name="[95]"></a>gpio_bits_reset</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, at32f403a_407_gpio.o(.text.gpio_bits_reset))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = gpio_bits_reset
 </UL>
-<BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tm1680Send_4bit
+<BR>[Called By]<UL><LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wk_gpio_config
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tm1680Send_4bit
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tm1680SendByte
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACK
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tm1680_stop
@@ -1692,7 +1693,6 @@ Global Symbols
 <LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_Ammeter
 <LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;voltage_transformer_control
 <LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_key
-<LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wk_gpio_config
 </UL>
 
 <P><STRONG><a name="[97]"></a>gpio_bits_set</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, at32f403a_407_gpio.o(.text.gpio_bits_set))
@@ -1736,7 +1736,8 @@ Global Symbols
 <P><STRONG><a name="[98]"></a>gpio_input_data_bit_read</STRONG> (Thumb, 54 bytes, Stack size 8 bytes, at32f403a_407_gpio.o(.text.gpio_input_data_bit_read))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = gpio_input_data_bit_read
 </UL>
-<BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACK
+<BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CV_handle
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACK
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EC11_ReadPin
 <LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CC_handle
 <LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_Ammeter
@@ -1751,7 +1752,6 @@ Global Symbols
 <LI><a href="#[2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_mod3
 <LI><a href="#[1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_mod2
 <LI><a href="#[0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_mod1
-<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CV_handle
 </UL>
 
 <P><STRONG><a name="[16c]"></a>gpio_pin_remap_config</STRONG> (Thumb, 150 bytes, Stack size 20 bytes, at32f403a_407_gpio.o(.text.gpio_pin_remap_config))
@@ -1799,8 +1799,8 @@ Global Symbols
 <LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;perfc_port_resume_global_interrupt
 <LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;perfc_port_disable_global_interrupt
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__perf_counter_init
-<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__perf_counter_init
 </UL>
 
 <P><STRONG><a name="[11e]"></a>key_event_check</STRONG> (Thumb, 250 bytes, Stack size 24 bytes, key.o(.text.key_event_check))
@@ -1961,10 +1961,10 @@ Global Symbols
 <P><STRONG><a name="[14d]"></a>pc_event_handle</STRONG> (Thumb, 288 bytes, Stack size 40 bytes, pc_comm_handle.o(.text.pc_event_handle))
 <BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = pc_event_handle &rArr; usart_sendData &rArr; queue_read &rArr; queue_isEmpty
 </UL>
-<BR>[Calls]<UL><LI><a href="#[14e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_sendData
-<LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_data
-<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crc_block_calculate
+<BR>[Calls]<UL><LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crc_block_calculate
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crc_data_reset
+<LI><a href="#[14e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_sendData
+<LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_data
 </UL>
 <BR>[Called By]<UL><LI><a href="#[14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_comm_handle
 </UL>
@@ -2071,23 +2071,23 @@ Global Symbols
 <P><STRONG><a name="[db]"></a>tm1680SendByte</STRONG> (Thumb, 158 bytes, Stack size 24 bytes, tm1680.o(.text.tm1680SendByte))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = tm1680SendByte &rArr; ACK &rArr; delay_us &rArr; get_system_ticks &rArr; check_systick
 </UL>
-<BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACK
-<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_set
+<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_set
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_reset
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACK
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680PageAllWrite
+<BR>[Called By]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680Init
+<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680PageAllWrite
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680WriteByte
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680Write4bit
-<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680Init
 </UL>
 
 <P><STRONG><a name="[df]"></a>tm1680Send_4bit</STRONG> (Thumb, 148 bytes, Stack size 24 bytes, tm1680.o(.text.tm1680Send_4bit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = tm1680Send_4bit &rArr; delay_us &rArr; get_system_ticks &rArr; check_systick
 </UL>
-<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_set
+<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_set
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_reset
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680WriteByte
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680Write4bit
@@ -2096,27 +2096,27 @@ Global Symbols
 <P><STRONG><a name="[da]"></a>tm1680_start</STRONG> (Thumb, 76 bytes, Stack size 24 bytes, tm1680.o(.text.tm1680_start))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = tm1680_start &rArr; delay_us &rArr; get_system_ticks &rArr; check_systick
 </UL>
-<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_set
+<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_set
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_reset
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680PageAllWrite
+<BR>[Called By]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680Init
+<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680PageAllWrite
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680WriteByte
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680Write4bit
-<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680Init
 </UL>
 
 <P><STRONG><a name="[dc]"></a>tm1680_stop</STRONG> (Thumb, 78 bytes, Stack size 24 bytes, tm1680.o(.text.tm1680_stop))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = tm1680_stop &rArr; delay_us &rArr; get_system_ticks &rArr; check_systick
 </UL>
-<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_set
+<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_set
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_reset
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680PageAllWrite
+<BR>[Called By]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680Init
+<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680PageAllWrite
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680WriteByte
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680Write4bit
-<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM1680Init
 </UL>
 
 <P><STRONG><a name="[183]"></a>tmr_base_init</STRONG> (Thumb, 34 bytes, Stack size 12 bytes, at32f403a_407_tmr.o(.text.tmr_base_init))
@@ -2129,8 +2129,8 @@ Global Symbols
 <P><STRONG><a name="[c6]"></a>tmr_channel_value_set</STRONG> (Thumb, 82 bytes, Stack size 20 bytes, at32f403a_407_tmr.o(.text.tmr_channel_value_set))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = tmr_channel_value_set
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FAN_Control
-<LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wk_tmr4_init
+<BR>[Called By]<UL><LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wk_tmr4_init
+<LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FAN_Control
 </UL>
 
 <P><STRONG><a name="[180]"></a>tmr_clock_source_div_set</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, at32f403a_407_tmr.o(.text.tmr_clock_source_div_set))
@@ -2317,9 +2317,9 @@ Global Symbols
 <P><STRONG><a name="[14e]"></a>usart_sendData</STRONG> (Thumb, 274 bytes, Stack size 32 bytes, at32_usart.o(.text.usart_sendData))
 <BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = usart_sendData &rArr; queue_read &rArr; queue_isEmpty
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_read
+<BR>[Calls]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_data_transmit
+<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_read
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_write
-<LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_data_transmit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[14d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_event_handle
 </UL>
@@ -2729,10 +2729,10 @@ Local Symbols
 <P><STRONG><a name="[cf]"></a>RecvDataFromPC</STRONG> (Thumb, 266 bytes, Stack size 16 bytes, pc_comm_handle.o(.text.RecvDataFromPC))
 <BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = RecvDataFromPC &rArr; usart_receiveData &rArr; queue_read &rArr; queue_isEmpty
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_receiveData
-<LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_data
-<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crc_block_calculate
+<BR>[Calls]<UL><LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crc_block_calculate
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crc_data_reset
+<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_receiveData
+<LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_data
 </UL>
 <BR>[Called By]<UL><LI><a href="#[14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_comm_handle
 </UL>
@@ -2773,7 +2773,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_handle
 </UL>
 
-<P><STRONG><a name="[111]"></a>get_reset_data</STRONG> (Thumb, 114 bytes, Stack size 0 bytes, flash_handle.o(.text.get_reset_data))
+<P><STRONG><a name="[111]"></a>get_reset_data</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, flash_handle.o(.text.get_reset_data))
 <BR><BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_handle
 </UL>
 
@@ -2781,10 +2781,12 @@ Local Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_handle
 </UL>
 
-<P><STRONG><a name="[11d]"></a>get_key</STRONG> (Thumb, 2224 bytes, Stack size 32 bytes, key_handle.o(.text.get_key))
+<P><STRONG><a name="[11d]"></a>get_key</STRONG> (Thumb, 2348 bytes, Stack size 32 bytes, key_handle.o(.text.get_key))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = get_key &rArr; key_event_check
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_event_check
+<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_set
+<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_reset
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_event_check
 <LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_output
 <LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_once_ocp
 <LI><a href="#[8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_cont_ocp
@@ -2796,8 +2798,6 @@ Local Symbols
 <LI><a href="#[2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_mod3
 <LI><a href="#[1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_mod2
 <LI><a href="#[0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_mod1
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_set
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_reset
 </UL>
 <BR>[Called By]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_handle
 </UL>
@@ -2947,8 +2947,8 @@ Local Symbols
 <BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderTimerGetCount
 <LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atomic_cmp_xch_32
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderStart
-<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderInitialize
+<BR>[Called By]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderInitialize
+<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderStart
 </UL>
 
 <P><STRONG><a name="[b5]"></a>EventRecordItem</STRONG> (Thumb, 240 bytes, Stack size 56 bytes, eventrecorder.o(.text.EventRecordItem))
@@ -2960,8 +2960,8 @@ Local Symbols
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LockRecord
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetRecordIndex
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderStart
-<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderInitialize
+<BR>[Called By]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderInitialize
+<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderStart
 </UL>
 
 <P><STRONG><a name="[b4]"></a>atomic_cmp_xch_32</STRONG> (Thumb, 96 bytes, Stack size 32 bytes, eventrecorder.o(.text.atomic_cmp_xch_32))
@@ -3017,19 +3017,19 @@ Local Symbols
 <P><STRONG><a name="[11f]"></a>perfc_port_disable_global_interrupt</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, perf_counter.o(.text.perfc_port_disable_global_interrupt))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = perfc_port_disable_global_interrupt
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_system_ticks
+<BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_cycle_counter
+<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_system_ticks
 <LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;update_perf_counter
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;perfc_port_insert_to_system_timer_insert_ovf_handler
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_cycle_counter
 </UL>
 
 <P><STRONG><a name="[120]"></a>perfc_port_resume_global_interrupt</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, perf_counter.o(.text.perfc_port_resume_global_interrupt))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = perfc_port_resume_global_interrupt
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_system_ticks
+<BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_cycle_counter
+<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_system_ticks
 <LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;update_perf_counter
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;perfc_port_insert_to_system_timer_insert_ovf_handler
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_cycle_counter
 </UL>
 
 <P><STRONG><a name="[eb]"></a>check_systick</STRONG> (Thumb, 66 bytes, Stack size 24 bytes, perf_counter.o(.text.check_systick))

@@ -45,7 +45,7 @@
 
 #define SoftwareVISION_BAI 1
 #define SoftwareVISION_SHI 0
-#define SoftwareVISION_GE  4
+#define SoftwareVISION_GE  5
 #define HardwareVISION_BAI 4
 #define HardwareVISION_SHI 0
 #define HardwareVISION_GE  1

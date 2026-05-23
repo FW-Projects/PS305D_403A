@@ -307,6 +307,32 @@ static void get_key(void)
             sbeep.cmd = BEEP_SHORT;
             set_done = TRUE;
         }
+		
+		if (key_event[10] == KE_LONG_PRESS)
+		{
+			sbeep.cmd = BEEP_LONG;
+			ps305d.system_parameters.set_voltage_data      = 450;
+			ps305d.system_parameters.set_current_data      = 5000;
+			ps305d.system_parameters.mod1_set_voltage_data = 450;
+			ps305d.system_parameters.mod1_set_current_data = 5000;
+			ps305d.mod1_ocp_mode                           = CONT_OCP_MODE;
+			ps305d.system_parameters.mod2_set_voltage_data = 450;
+			ps305d.system_parameters.mod2_set_current_data = 5000;
+			ps305d.mod2_ocp_mode                           = CONT_OCP_MODE;
+			ps305d.system_parameters.mod3_set_voltage_data = 450;
+			ps305d.system_parameters.mod3_set_current_data = 5000;
+			ps305d.mod3_ocp_mode                           = CONT_OCP_MODE;
+			ps305d.system_parameters.mod4_set_voltage_data = 450;
+			ps305d.system_parameters.mod4_set_current_data = 5000;
+			ps305d.mod4_ocp_mode                           = CONT_OCP_MODE;
+			ps305d.ocp_mode                                = NO_OCP_MODE;
+			ps305d.General_parameters.voltage_limit_flag   = false;
+			ps305d.General_parameters.current_limit_flag   = false;
+			ps305d.lock_gate                               = UNLOCK;
+			ps305d.speak_gate                              = SPEAK_OPEN;
+			ps305d.output_state = NO_OUTPUT;
+			
+		}
     }
 }
 
