@@ -70,9 +70,6 @@
         <Mode>
             <ModeSub name="Activated" value="TRUE"/>
         </Mode>
-        <Parameters>
-            <ParametersSub name="Period" value="199"/>
-        </Parameters>
     </TMR1>
     <TMR4>
         <Mode>
@@ -111,7 +108,7 @@
         <DMA1_Channel1_IRQHandler>0;0;0;0;0</DMA1_Channel1_IRQHandler>
         <ADC1_2_IRQHandler>0;0;0;0;0</ADC1_2_IRQHandler>
         <TMR1_BRK_TMR9_IRQHandler>0;0;0;0;0</TMR1_BRK_TMR9_IRQHandler>
-        <TMR1_OVF_TMR10_IRQHandler>1;1;0;0;0</TMR1_OVF_TMR10_IRQHandler>
+        <TMR1_OVF_TMR10_IRQHandler>0;1;0;0;0</TMR1_OVF_TMR10_IRQHandler>
         <TMR1_TRG_HALL_TMR11_IRQHandler>0;0;0;0;0</TMR1_TRG_HALL_TMR11_IRQHandler>
         <TMR1_CH_IRQHandler>0;0;0;0;0</TMR1_CH_IRQHandler>
         <TMR4_GLOBAL_IRQHandler>0;0;0;0;0</TMR4_GLOBAL_IRQHandler>
@@ -230,9 +227,9 @@
         <rtcsel>0</rtcsel>
         <hext>8.000000</hext>
         <hextdiv>2</hextdiv>
-        <pllhextdiv>0</pllhextdiv>
-        <pllrcs>0</pllrcs>
-        <pllmult>25</pllmult>
+        <pllhextdiv>1</pllhextdiv>
+        <pllrcs>1</pllrcs>
+        <pllmult>50</pllmult>
         <sclkselect>1</sclkselect>
         <ahbdiv>1</ahbdiv>
         <apb1div>2</apb1div>
